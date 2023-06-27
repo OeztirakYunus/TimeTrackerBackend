@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "Hash": "oISkIqRLyoCiXx2/UF0md4eE7A8zz1gP36oZqQGmNrc=",
+  "Source": "BillingSoftware.Web",
+  "BasePath": "_content/BillingSoftware.Web",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "BillingSoftware.Web\\wwwroot",
+      "Source": "BillingSoftware.Web",
+      "ContentRoot": "C:\\Users\\oezti\\OneDrive\\Desktop\\BillingSoftwareBackend\\BillingSoftware.Web\\wwwroot\\",
+      "BasePath": "_content/BillingSoftware.Web",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\oezti\\OneDrive\\Desktop\\BillingSoftwareBackend\\BillingSoftware.Web\\wwwroot\\index.html",
+      "SourceId": "BillingSoftware.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\oezti\\OneDrive\\Desktop\\BillingSoftwareBackend\\BillingSoftware.Web\\wwwroot\\",
+      "BasePath": "_content/BillingSoftware.Web",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ]
+}

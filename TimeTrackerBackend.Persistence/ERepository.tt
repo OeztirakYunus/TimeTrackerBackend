@@ -1,0 +1,33 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<#
+    string className = "Stamp";
+#>
+namespace TimeTrackerBackend.Persistence.Repository
+{
+    using TimeTrackerBackend.Core.Contracts.Repository;
+    using TimeTrackerBackend.Core.Entities;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    public class <#= className #>Repository : Repository<<#= className #>>, I<#= className #>Repository
+    {
+        public <#= className #>Repository(ApplicationDbContext context) : base(context)
+        {
+
+        }
+        override public Task<<#= className #>[]> GetAllAsync()
+        {
+            return _context.<#= className #>s.ToArrayAsync();
+        }
+    }
+}

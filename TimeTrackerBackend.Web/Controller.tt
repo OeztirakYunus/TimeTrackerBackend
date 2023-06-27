@@ -1,0 +1,113 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<#
+    string className = "Stamps";
+    string repName = "Stamp";
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TimeTrackerBackend.Core.Contracts;
+using TimeTrackerBackend.Core.Entities;
+using CommonBase.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace TimeTrackerBackend.Web.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class <#= className #>Controller : ControllerBase
+    {
+        private readonly IUnitOfWork _uow;
+
+        public <#= className #>Controller(IUnitOfWork uow)
+        {
+            _uow = uow;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<<#= className #>>>> GetAll()
+        {
+            try
+            {
+                var all = await _uow.<#= repName #>Repository.GetAllAsync();
+                return Ok(all);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<<#= className #>>> Get(string id)
+        {
+            try
+            {
+                var guid = Guid.Parse(id);
+                var entity = await _uow.<#= repName #>Repository.GetByIdAsync(guid);
+                return entity;
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(<#= repName #> valueToUpdate)
+        {
+            try
+            {
+                var entity = await _uow.<#= repName #>Repository.GetByIdAsync(valueToUpdate.Id);
+                valueToUpdate.CopyProperties(entity);
+                await _uow.<#= repName #>Repository.Update(entity);
+                await _uow.SaveChangesAsync();
+                return Ok(new { Status = "Success", Message = "Updated!" });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(<#= repName #> valueToAdd)
+        {
+            try
+            {              
+                await _uow.<#= repName #>Repository.AddAsync(valueToAdd);
+                await _uow.SaveChangesAsync();
+                return Ok(new { Status = "Success", Message = "Added!" });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                var guid = Guid.Parse(id);
+                await _uow.<#= repName #>Repository.Remove(guid);
+                await _uow.SaveChangesAsync();
+                return Ok(new { Status = "Success", Message = "Deleted." });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+    }
+}

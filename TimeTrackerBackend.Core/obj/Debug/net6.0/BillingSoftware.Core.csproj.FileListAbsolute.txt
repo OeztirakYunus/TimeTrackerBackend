@@ -1,0 +1,12 @@
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\bin\Debug\net6.0\BillingSoftware.Core.deps.json
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\bin\Debug\net6.0\BillingSoftware.Core.dll
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\bin\Debug\net6.0\BillingSoftware.Core.pdb
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\BillingSoftware.Core.csproj.AssemblyReference.cache
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\BillingSoftware.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\BillingSoftware.Core.AssemblyInfoInputs.cache
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\BillingSoftware.Core.AssemblyInfo.cs
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\BillingSoftware.Core.csproj.CoreCompileInputs.cache
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\BillingSoftware.Core.dll
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\refint\BillingSoftware.Core.dll
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\BillingSoftware.Core.pdb
+C:\Users\oezti\OneDrive\Desktop\BillingSoftwareBackend\BillingSoftware.Core\obj\Debug\net6.0\ref\BillingSoftware.Core.dll
