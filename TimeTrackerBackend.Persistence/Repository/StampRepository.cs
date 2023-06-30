@@ -24,10 +24,26 @@ namespace TimeTrackerBackend.Persistence.Repository
 
         public async Task<Stamp[]> GetForDayForEmployee(Employee employee)
         {
+            var emptyStamps = new List<Stamp>();
+
             var currentDate = DateTime.Now;
             var workMonths = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Include(i => i.WorkDays).ToArrayAsync();
+            if(workMonths == null) {
+                return emptyStamps.ToArray();
+            }
+
             var workMonth = workMonths.Where(i => i.Date.Month.Equals(currentDate.Month) && i.Date.Year.Equals(currentDate.Year)).FirstOrDefault();
-            var workDay = workMonth.WorkDays.Where(i => i.Date.Equals(currentDate.Date)).FirstOrDefault();
+            if (workMonth == null)
+            {
+                return emptyStamps.ToArray();
+            }
+
+            var workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
+            if (workDay == null)
+            {
+                return emptyStamps.ToArray();
+            }
+
             var stamps = await _context.Stamps.Where(i => i.WorkDayId == workDay.Id).ToArrayAsync();
 
             return stamps;
@@ -58,7 +74,8 @@ namespace TimeTrackerBackend.Persistence.Repository
         {
             WorkDay newWorkDay = new WorkDay()
             {
-                Date = currentDate,
+                StartDate = currentDate,
+                Status = Status.OPEN,
                 WorkedHours = 0,
                 Stamps = new List<Stamp>()
                         {
@@ -95,7 +112,7 @@ namespace TimeTrackerBackend.Persistence.Repository
             DateTime currentDate = DateTime.Now;
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
             if(workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden");
-            WorkDay workDay = workMonth.WorkDays.Where(i => i.Date.Day.Equals(currentDate.Day)).FirstOrDefault();
+            WorkDay workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
             workDay = await _context.WorkDays.Where(i => i.Id == workDay.Id).Include(i => i.Stamps).FirstOrDefaultAsync();
             if(workDay != null)
             {
@@ -134,7 +151,7 @@ namespace TimeTrackerBackend.Persistence.Repository
 
             if (workMonth != null)
             {
-                var workDay = workMonth.WorkDays.Where(i => i.Date.Date.Equals(currentDate.Date)).FirstOrDefault();
+                var workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
                 if (workDay != null) //Dienstende
                 {
                     workDay = await _context.WorkDays.Where(i => i.Id == workDay.Id).Include(i => i.Stamps).FirstAsync();
@@ -143,24 +160,24 @@ namespace TimeTrackerBackend.Persistence.Repository
 
                     if (breakCount != breakEndCount) throw new Exception("Dienst darf nicht vor Pausenende beendet werden!");
 
-                    //if(!workDay.Stamps.Any(i => i.TypeOfStamp == TypeOfStamp.Dienstende)) //Wenn schon Dienstende, kein Dienstende
-                    //{
                     newReturnWorkDay = workDay;
-                        Stamp newStamp = CreateStamp(TypeOfStamp.Dienstende, currentDate, workDay.Id);
+                    Stamp newStamp = CreateStamp(TypeOfStamp.Dienstende, currentDate, workDay.Id);
 
-                        var workingHours = GetWorkingHoursOfDay(workDay.Stamps.Where(i => i.TypeOfStamp == TypeOfStamp.Dienstbeginn).First(), newStamp);
-                        workDay.WorkedHours = workingHours;
-                        workMonth.WorkedHours += workingHours;
-                        await AddAsync(newStamp);
-                        await Update(workMonth);
-                        await Update(workDay);
-                    //}                   
+                    var workingHours = GetWorkingHoursOfDay(workDay.Stamps.Where(i => i.TypeOfStamp == TypeOfStamp.Dienstbeginn).First(), newStamp);
+
+                    workDay.Status = Status.CLOSED;
+                    workDay.EndDate = currentDate;
+                    workDay.WorkedHours = workingHours;
+                    workMonth.WorkedHours += workingHours;
+
+                    await AddAsync(newStamp);
+                    await Update(workMonth);
+                    await Update(workDay);                   
                 }   
                 else //Dienstbeginn
                 {
-                    WorkDay newWorkDay = CreateWorkDayWithStamp(currentDate, workMonth.Id);
-                    newReturnWorkDay = workDay;
-                    await AddAsync(newWorkDay);
+                    newReturnWorkDay = CreateWorkDayWithStamp(currentDate, workMonth.Id);
+                    await AddAsync(newReturnWorkDay);
                 }
             }
             else

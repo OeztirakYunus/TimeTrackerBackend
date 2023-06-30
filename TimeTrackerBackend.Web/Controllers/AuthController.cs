@@ -252,6 +252,31 @@ namespace TimeTrackerBackend.Web.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Employee>> GetById(string id)
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                var employee = await _userManager.FindByIdAsync(id);
+                if (employee == null)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Mitarbeiter nicht gefunden." });
+                }
+
+                if (!employee.CompanyId.Equals(user.CompanyId))
+                {
+                    return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+                }
+
+                return employee;
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
         [HttpGet("role")]
         public async Task<ActionResult<string>> GetRole()
         {

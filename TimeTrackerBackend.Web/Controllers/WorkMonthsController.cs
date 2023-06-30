@@ -10,6 +10,7 @@ using CommonBase.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using TimeTrackerBackend.Core.DataTransferObjects;
 
 namespace TimeTrackerBackend.Web.Controllers
 {
@@ -44,7 +45,7 @@ namespace TimeTrackerBackend.Web.Controllers
 
         [HttpGet("date/{date}")]
         [Authorize]
-        public async Task<ActionResult<WorkMonth>> GetByDate(DateTime date)
+        public async Task<ActionResult<WorkMonthDto>> GetByDate(DateTime date)
         {
             try
             {
@@ -52,6 +53,38 @@ namespace TimeTrackerBackend.Web.Controllers
                 var workMonth = await _uow.WorkMonthRepository.GetByDate(date, user.Id);
                
 
+                return Ok(workMonth);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpGet("date/{employeeId}/{date}")]
+        [Authorize]
+        public async Task<ActionResult<WorkMonthDto>> GetByDateForEmployee(string employeeId, DateTime date)
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                if(user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Sie sind kein Admin." });
+                }
+
+                var employee = await _userManager.FindByIdAsync(employeeId);
+                if(employee == null)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Mitarbeiter nicht gefunden." });
+                }
+
+                if (!employee.CompanyId.Equals(user.CompanyId))
+                {
+                    return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+                }
+
+                var workMonth = await _uow.WorkMonthRepository.GetByDate(date, employee.Id);
                 return Ok(workMonth);
             }
             catch (System.Exception ex)

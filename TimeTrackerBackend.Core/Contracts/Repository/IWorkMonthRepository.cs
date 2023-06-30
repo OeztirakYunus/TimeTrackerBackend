@@ -6,10 +6,11 @@ namespace TimeTrackerBackend.Core.Contracts.Repository
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using TimeTrackerBackend.Core.DataTransferObjects;
 
     public interface IWorkMonthRepository : IRepository<WorkMonth>
     {
-        Task<WorkMonth> GetByDate(DateTime date, string employeeId);
+        Task<WorkMonthDto> GetByDate(DateTime date, string employeeId);
         Task<WorkMonth[]> GetByEmployeeId(string employeeId);
     }
 }
