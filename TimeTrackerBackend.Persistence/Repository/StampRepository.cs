@@ -22,6 +22,70 @@ namespace TimeTrackerBackend.Persistence.Repository
             return _context.Stamps.ToArrayAsync();
         }
 
+        public override async Task Update(Stamp entityToUpdate)
+        {
+            var entity = await GetByIdAsync(entityToUpdate.Id);
+            if(entity == null) {
+                throw new ArgumentNullException("entityToUpdate");
+            }
+
+            entity.Time = entityToUpdate.Time;
+            entity.Time = entity.Time.AddHours(2); //Aufgrund eines Fehlers, muss 2h hinzugefügt werden.
+
+            if (entity.TypeOfStamp == TypeOfStamp.Dienstbeginn || entity.TypeOfStamp == TypeOfStamp.Dienstende)
+            {
+                var workDay = await _context.WorkDays.FindAsync(entity.WorkDayId);
+
+                switch (entity.TypeOfStamp)
+                {
+                    case TypeOfStamp.Dienstbeginn:
+                        workDay.StartDate = entity.Time;
+                        break;
+                    case TypeOfStamp.Dienstende:
+                        workDay.EndDate = entity.Time;
+                        break;
+                    default:
+                        break;
+                }
+
+                await Update(workDay);
+            }
+
+            var allStampsOfDay = await _context.Stamps.Where(i => i.WorkDayId == entity.WorkDayId && i.Id != entity.Id).ToArrayAsync();
+
+            if(entity.TypeOfStamp == TypeOfStamp.Dienstbeginn && allStampsOfDay.Any(i => entity.Time > i.Time))
+            {
+                throw new Exception("Die Uhrzeit von Dienstbeginn darf nicht nach der Uhrzeit von Dienstende und Pausen liegen.");
+            }
+            else if (entity.TypeOfStamp == TypeOfStamp.Dienstende && allStampsOfDay.Any(i => entity.Time < i.Time))
+            {
+                throw new Exception("Die Uhrzeit von Dienstende muss nach der Uhrzeit von Dienstbeginn und Pausen liegen.");
+            }
+            //else if (entity.TypeOfStamp == TypeOfStamp.Pause)
+            //{
+            //    if (allStampsOfDay.Where(i => i.TypeOfStamp == TypeOfStamp.Dienstbeginn).Any(i => entity.Time < i.Time))
+            //    {
+            //        throw new Exception("Die Uhrzeit von der Pause muss nach der Uhrzeit von Dienstbeginn liegen.");
+            //    }
+            //    else if (allStampsOfDay.Where(i => i.TypeOfStamp != TypeOfStamp.Dienstbeginn).Any(i => entity.Time > i.Time))
+            //    {
+            //        throw new Exception("Die Uhrzeit von der Pause muss vor der Uhrzeit von Dienstende und Pausenende liegen.");
+            //    }
+            //}
+            //else if (entity.TypeOfStamp == TypeOfStamp.PauseEnde)
+            //{
+            //    if (allStampsOfDay.Where(i => i.TypeOfStamp == TypeOfStamp.Pause).Any(i => entity.Time < i.Time))
+            //    {
+            //        throw new Exception("Die Uhrzeit von der Pausenende muss nach der Uhrzeit von Pausenbeginn liegen.");
+            //    }
+            //    else if (allStampsOfDay.Where(i => i.TypeOfStamp != TypeOfStamp.Dienstbeginn).Any(i => entity.Time > i.Time))
+            //    {
+            //        throw new Exception("Die Uhrzeit von der Pause muss vor der Uhrzeit von Dienstende und Pausenende liegen.");
+            //    }
+            //}
+            await base.Update(entity);
+        }
+
         public async Task<Stamp[]> GetForDayForEmployee(Employee employee)
         {
             var emptyStamps = new List<Stamp>();
@@ -49,11 +113,6 @@ namespace TimeTrackerBackend.Persistence.Repository
             return stamps;
         }
 
-        private double GetWorkingHoursOfDay(Stamp firstStamp, Stamp lastStamp)
-        {
-            var workingHours = lastStamp.Time - firstStamp.Time;
-            return workingHours.TotalHours;
-        }
         private Stamp CreateStamp(TypeOfStamp typeOfStamp, DateTime currentDate, Guid? workDayId)
         {
             Stamp newStamp = new Stamp()
@@ -163,12 +222,10 @@ namespace TimeTrackerBackend.Persistence.Repository
                     newReturnWorkDay = workDay;
                     Stamp newStamp = CreateStamp(TypeOfStamp.Dienstende, currentDate, workDay.Id);
 
-                    var workingHours = GetWorkingHoursOfDay(workDay.Stamps.Where(i => i.TypeOfStamp == TypeOfStamp.Dienstbeginn).First(), newStamp);
-
                     workDay.Status = Status.CLOSED;
                     workDay.EndDate = currentDate;
-                    workDay.WorkedHours = workingHours;
-                    workMonth.WorkedHours += workingHours;
+                    workDay.WorkedHours = 0;
+                    workMonth.WorkedHours = 0;
 
                     await AddAsync(newStamp);
                     await Update(workMonth);

@@ -625,3 +625,5 @@ C:/Users/oezti/OneDrive/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/obj/De
 /Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/obj/Debug/net6.0/TimeTrackerBackend.Web.pdb
 /Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/obj/Debug/net6.0/TimeTrackerBackend.Web.genruntimeconfig.cache
 /Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/obj/Debug/net6.0/ref/TimeTrackerBackend.Web.dll
+/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net6.0/BouncyCastle.Crypto.dll
+/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net6.0/itextsharp.dll

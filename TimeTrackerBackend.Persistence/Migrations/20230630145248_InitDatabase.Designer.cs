@@ -12,8 +12,8 @@ using TimeTrackerBackend.Persistence;
 namespace TimeTrackerBackend.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230627211205_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230630145248_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -315,9 +315,6 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.Property<Guid?>("WorkMonthId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("WorkedHours")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("WorkMonthId");
@@ -341,9 +338,6 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<double>("WorkedHours")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

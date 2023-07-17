@@ -29,6 +29,9 @@ namespace TimeTrackerBackend.Persistence.Repository
             if(workMonth != null)
             {
                 workDay = workMonth.WorkDays.Where(i => i.Status == Core.Enums.Status.OPEN).FirstOrDefault();
+                if(workDay == null) {
+                    return new WorkDay();
+                }
                 workDay = await _context.WorkDays.Where(i => i.Id == workDay.Id).Include(i => i.Stamps).FirstOrDefaultAsync();
             }
             return workDay;

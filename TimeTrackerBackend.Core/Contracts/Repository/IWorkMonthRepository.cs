@@ -12,5 +12,6 @@ namespace TimeTrackerBackend.Core.Contracts.Repository
     {
         Task<WorkMonthDto> GetByDate(DateTime date, string employeeId);
         Task<WorkMonth[]> GetByEmployeeId(string employeeId);
+        Task<WorkMonthDto> GetAsDto(WorkMonth workMonth);
     }
 }

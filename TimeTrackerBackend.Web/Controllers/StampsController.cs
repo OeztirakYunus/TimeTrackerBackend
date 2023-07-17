@@ -10,6 +10,7 @@ using CommonBase.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using DocumentFormat.OpenXml.Vml.Office;
 
 namespace TimeTrackerBackend.Web.Controllers
 {
@@ -76,6 +77,7 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Stamp>>> GetAll()
         {
             try
@@ -109,9 +111,17 @@ namespace TimeTrackerBackend.Web.Controllers
         {
             try
             {
-                var entity = await _uow.StampRepository.GetByIdAsync(valueToUpdate.Id);
-                valueToUpdate.CopyProperties(entity);
-                await _uow.StampRepository.Update(entity);
+                var user = await GetCurrentUserAsync();
+                var workDay = await _uow.WorkDayRepository.GetByIdAsync((Guid)valueToUpdate.WorkDayId);
+                var workMonth = await _uow.WorkMonthRepository.GetByIdAsync((Guid)workDay.WorkMonthId);
+                var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
+
+                if(user.CompanyId != employee.CompanyId || user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                {
+                    return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
+                }
+
+                await _uow.StampRepository.Update(valueToUpdate);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
             }

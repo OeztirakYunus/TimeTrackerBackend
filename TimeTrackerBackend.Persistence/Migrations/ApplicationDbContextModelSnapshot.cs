@@ -313,9 +313,6 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.Property<Guid?>("WorkMonthId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("WorkedHours")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("WorkMonthId");
@@ -339,9 +336,6 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<double>("WorkedHours")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

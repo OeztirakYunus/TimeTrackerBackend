@@ -155,5 +155,39 @@ namespace TimeTrackerBackend.Web.Controllers
                 return BadRequest(new { Status = "Error", Message = ex.Message });
             }
         }
+
+
+        [HttpGet("createPdf/{id}")]
+        public async Task<IActionResult> GetPdf(string id)
+        {
+            try
+            {
+                var guid = Guid.Parse(id);
+                var workMonth = await _uow.WorkMonthRepository.GetByIdAsync(guid);
+                var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
+                var user = await GetCurrentUserAsync();
+
+                if(workMonth == null)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Arbeitsmonat nicht gefunden." });
+
+                }
+
+                if (!employee.CompanyId.Equals(user.CompanyId) || user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                {
+                    return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+                }
+
+
+
+                var workMonthDto = await _uow.WorkMonthRepository.GetAsDto(workMonth);
+                var (bytes, path) = PDFCreator.GeneratePdf(workMonthDto);
+                return File(bytes, "application/pdf", path);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
     }
 }

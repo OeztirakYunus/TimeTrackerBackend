@@ -1,59 +1,61 @@
 ﻿<Properties StartupConfiguration="{896C75C5-EF9D-4A11-B473-A971A953D367}|Default">
-  <MonoDevelop.Ide.ItemProperties.TimeTrackerBackend.Web PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TimeTrackerBackend.Web/Controllers/WorkMonthsController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TimeTrackerBackend.Web/Program.cs">
     <Files>
-      <File FileName="TimeTrackerBackend.Web/Controllers/AuthController.cs" Line="259" Column="1" />
-      <File FileName="TimeTrackerBackend.Web/Program.cs" />
-      <File FileName="TimeTrackerBackend.Web/appsettings.json" />
-      <File FileName="TimeTrackerBackend.Persistence/appsettings.json" />
-      <File FileName="TimeTrackerBackend.Web/Startup.cs" />
-      <File FileName="TimeTrackerBackend.Core/DataTransferObjects/AddUserDto.cs" />
-      <File FileName="TimeTrackerBackend.Core/Entities/Employee.cs" Line="24" Column="1" />
-      <File FileName="TimeTrackerBackend.Core/Entities/Stamp.cs" />
+      <File FileName="TimeTrackerBackend.Web/Controllers/AuthController.cs" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Web/Program.cs" Line="35" Column="42" />
+      <File FileName="TimeTrackerBackend.Web/appsettings.json" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Persistence/appsettings.json" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Web/Startup.cs" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Core/DataTransferObjects/AddUserDto.cs" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Core/Entities/Employee.cs" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Core/Entities/Stamp.cs" Line="1" Column="1" />
       <File FileName="TimeTrackerBackend.Core/Entities/WorkDay.cs" />
-      <File FileName="TimeTrackerBackend.Core/Entities/WorkMonth.cs" />
-      <File FileName="TimeTrackerBackend.Persistence/Repository/StampRepository.cs" />
+      <File FileName="TimeTrackerBackend.Core/Entities/WorkMonth.cs" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Persistence/Repository/StampRepository.cs" Line="29" Column="67" />
       <File FileName="TimeTrackerBackend.Core/Enums/Status.cs" />
       <File FileName="TimeTrackerBackend.Persistence/Repository/WorkDayRepository.cs" />
-      <File FileName="TimeTrackerBackend.Persistence/Repository/WorkMonthRepository.cs" Line="66" Column="14" />
+      <File FileName="TimeTrackerBackend.Persistence/Repository/WorkMonthRepository.cs" Line="66" Column="1" />
       <File FileName="TimeTrackerBackend.Web/Controllers/CompaniesController.cs" />
-      <File FileName="TimeTrackerBackend.Web/Controllers/WorkDaysController.cs" Line="1" Column="1" />
-      <File FileName="TimeTrackerBackend.Web/Controllers/StampsController.cs" />
-      <File FileName="TimeTrackerBackend.Web/Controllers/WorkMonthsController.cs" Line="69" Column="14" />
-      <File FileName="TimeTrackerBackend.Core/DataTransferObjects/WorkMonthDto.cs" Line="13" Column="1" />
-      <File FileName="TimeTrackerBackend.Core/Contracts/Repository/IWorkMonthRepository.cs" Line="13" Column="28" />
+      <File FileName="TimeTrackerBackend.Web/Controllers/WorkDaysController.cs" />
+      <File FileName="TimeTrackerBackend.Web/Controllers/StampsController.cs" Line="124" Column="66" />
+      <File FileName="TimeTrackerBackend.Web/Controllers/WorkMonthsController.cs" Line="167" Column="75" />
+      <File FileName="TimeTrackerBackend.Core/DataTransferObjects/WorkMonthDto.cs" Line="1" Column="1" />
+      <File FileName="TimeTrackerBackend.Core/Contracts/Repository/IWorkMonthRepository.cs" />
       <File FileName="TimeTrackerBackend.Persistence/Repository/Repository.cs" />
       <File FileName="TimeTrackerBackend.Persistence/ApplicationDbContext.cs" />
+      <File FileName="CommonBase/Extensions/PDFCreator.cs" Line="17" Column="88" />
+      <File FileName="TimeTrackerBackend.Core/Contracts/Repository/IWorkDayRepository.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="TimeTrackerBackend" expanded="True">
+            <Node name="CommonBase">
+              <Node name="Extensions" expanded="True" />
+            </Node>
             <Node name="TimeTrackerBackend.Core" expanded="True">
-              <Node name="Contracts" expanded="True">
-                <Node name="Repository" expanded="True" />
-              </Node>
               <Node name="DataTransferObjects" expanded="True" />
+              <Node name="Entities" expanded="True" />
             </Node>
             <Node name="TimeTrackerBackend.Persistence">
               <Node name="Repository" expanded="True" />
             </Node>
             <Node name="TimeTrackerBackend.Web">
-              <Node name="Controllers" expanded="True">
-                <Node name="WorkMonthsController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../../../TimeTrackerBackend.Persistence/Repository/WorkMonthRepository.cs" line="25" column="90" endLine="25" endColumn="114" offsetX="-1" offsetY="-1" expression="workDays" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.TimeTrackerBackend.Web PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MultiItemStartupConfigurations />
 </Properties>
