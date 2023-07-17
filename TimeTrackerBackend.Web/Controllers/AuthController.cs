@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using TimeTrackerBackend.Core.Contracts;
 using TimeTrackerBackend.Core.DataTransferObjects;
 using TimeTrackerBackend.Core.Entities;
+using TimeTrackerBackend.Core.Enums;
 
 namespace TimeTrackerBackend.Web.Controllers
 {
@@ -140,7 +141,8 @@ namespace TimeTrackerBackend.Web.Controllers
                 LastName = newUser.LastName,
                 PhoneNumber = newUser.PhoneNumber,
                 NumberOfKids = newUser.NumberOfKids,
-                SocialSecurityNumber = newUser.SocialSecurityNumber
+                SocialSecurityNumber = newUser.SocialSecurityNumber,
+                MainUser = true
             };
             var resultUser = await _userManager.CreateAsync(user, newUser.Password);
             var resultRole = await _userManager.AddToRoleAsync(user, "Admin");
@@ -200,21 +202,25 @@ namespace TimeTrackerBackend.Web.Controllers
 
             var company = await GetCurrentUserAsync();
 
+            var role = EmployeeRole.User;
+            Enum.TryParse<EmployeeRole>(newUser.EmployeeRole, out role);
+
             Employee user = new Employee
             {
                 Email = newUser.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = newUser.Email,
-                EmployeeRole = Core.Enums.EmployeeRole.User,
+                EmployeeRole = role,
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
                 PhoneNumber = newUser.PhoneNumber,
                 NumberOfKids = newUser.NumberOfKids,
                 SocialSecurityNumber = newUser.SocialSecurityNumber,
-                CompanyId = company.CompanyId
+                CompanyId = company.CompanyId,
+                MainUser = false
             };
             var resultUser = await _userManager.CreateAsync(user, newUser.Password);
-            var resultRole = await _userManager.AddToRoleAsync(user, "User");
+            var resultRole = await _userManager.AddToRoleAsync(user, newUser.EmployeeRole);
 
             if (!resultUser.Succeeded)
             {
@@ -237,14 +243,20 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<Employee>>> Get()
+        public async Task<ActionResult<ICollection<EmployeeDto>>> Get()
         {
             try
             {
                 var user = await GetCurrentUserAsync();
                 var guid = (Guid)user.CompanyId;
-                var entity = _userManager.Users.Where(i => i.CompanyId.Equals(guid)).ToArray();
-                return entity;
+                var entities = _userManager.Users.Where(i => i.CompanyId.Equals(guid)).ToArray();
+
+                var employeeList = new List<EmployeeDto>();
+                foreach (var item in entities)
+                {
+                    employeeList.Add(EntityToDto(item));
+                }
+                return employeeList;
             }
             catch (System.Exception ex)
             {
@@ -253,7 +265,7 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetById(string id)
+        public async Task<ActionResult<EmployeeDto>> GetById(string id)
         {
             try
             {
@@ -269,12 +281,32 @@ namespace TimeTrackerBackend.Web.Controllers
                     return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
                 }
 
-                return employee;
+                return EntityToDto(employee);
             }
             catch (System.Exception ex)
             {
                 return BadRequest(new { Status = "Error", Message = ex.Message });
             }
+        }
+
+        private EmployeeDto EntityToDto(Employee employee)
+        {
+            EmployeeDto employeeDto = new EmployeeDto()
+            {
+                Company = employee.Company,
+                CompanyId = employee.CompanyId,
+                EmployeeRole = employee.EmployeeRole,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                NumberOfKids = employee.NumberOfKids,
+                SocialSecurityNumber = employee.SocialSecurityNumber,
+                WorkMonths = employee.WorkMonths,
+                PhoneNumber = employee.PhoneNumber,
+                Email = employee.Email,
+                Id = employee.Id
+            };
+
+            return employeeDto;
         }
 
         [HttpGet("role")]
@@ -298,6 +330,11 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 var user = await GetCurrentUserAsync();
                 var userToDelete = await _userManager.FindByIdAsync(id);
+
+                if(userToDelete.MainUser == true)
+                {
+                    return BadRequest(new { Status = "Error", Message = $"Hauptbenutzer darf nicht gelöscht werden." });
+                }
 
                 if (user.CompanyId.Equals(userToDelete.CompanyId) && user.EmployeeRole == Core.Enums.EmployeeRole.Admin)
                 {

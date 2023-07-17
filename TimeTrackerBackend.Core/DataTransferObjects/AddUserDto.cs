@@ -15,5 +15,6 @@ namespace TimeTrackerBackend.Core.DataTransferObjects
         public string SocialSecurityNumber { get; set; }
         public string PhoneNumber { get; set; }
         public int NumberOfKids { get; set; }
+        public string EmployeeRole { get; set; }
     }
 }

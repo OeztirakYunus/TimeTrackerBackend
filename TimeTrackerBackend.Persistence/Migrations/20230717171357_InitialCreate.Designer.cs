@@ -12,8 +12,8 @@ using TimeTrackerBackend.Persistence;
 namespace TimeTrackerBackend.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230630145248_InitDatabase")]
-    partial class InitDatabase
+    [Migration("20230717171357_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -215,6 +215,9 @@ namespace TimeTrackerBackend.Persistence.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("MainUser")
+                        .HasColumnType("bit");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

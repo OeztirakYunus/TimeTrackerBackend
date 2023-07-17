@@ -21,10 +21,9 @@ namespace TimeTrackerBackend.Core.Entities
         public string SocialSecurityNumber { get; set; }
         [Required]
         public int NumberOfKids { get; set; }
+        public bool MainUser { get; set; } = false;
         public ICollection<WorkMonth> WorkMonths { get; set; } = new List<WorkMonth>();
         public Guid? CompanyId { get; set; }
         public Company Company { get; set; }
-
-
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TimeTrackerBackend.Persistence.Migrations
 {
-    public partial class InitDatabase : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,6 +67,7 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     EmployeeRole = table.Column<int>(type: "int", nullable: false),
                     SocialSecurityNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfKids = table.Column<int>(type: "int", nullable: false),
+                    MainUser = table.Column<bool>(type: "bit", nullable: false),
                     CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

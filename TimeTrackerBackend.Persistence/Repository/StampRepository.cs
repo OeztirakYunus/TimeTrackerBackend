@@ -29,6 +29,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                 throw new ArgumentNullException("entityToUpdate");
             }
 
+            var prevTime = entity.Time;
             entity.Time = entityToUpdate.Time;
             entity.Time = entity.Time.AddHours(2); //Aufgrund eines Fehlers, muss 2h hinzugefügt werden.
 
@@ -63,14 +64,17 @@ namespace TimeTrackerBackend.Persistence.Repository
             }
             //else if (entity.TypeOfStamp == TypeOfStamp.Pause)
             //{
+            //    var nearestBreakEnd = allStampsOfDay.Where(i => i.TypeOfStamp == TypeOfStamp.PauseEnde).OrderBy(x => x.Time - prevTime).First();
+
             //    if (allStampsOfDay.Where(i => i.TypeOfStamp == TypeOfStamp.Dienstbeginn).Any(i => entity.Time < i.Time))
             //    {
             //        throw new Exception("Die Uhrzeit von der Pause muss nach der Uhrzeit von Dienstbeginn liegen.");
             //    }
-            //    else if (allStampsOfDay.Where(i => i.TypeOfStamp != TypeOfStamp.Dienstbeginn).Any(i => entity.Time > i.Time))
+            //    else if (allStampsOfDay.Where(i => i.TypeOfStamp != TypeOfStamp.Dienstende).Any(i => entity.Time > i.Time))
             //    {
             //        throw new Exception("Die Uhrzeit von der Pause muss vor der Uhrzeit von Dienstende und Pausenende liegen.");
             //    }
+                
             //}
             //else if (entity.TypeOfStamp == TypeOfStamp.PauseEnde)
             //{

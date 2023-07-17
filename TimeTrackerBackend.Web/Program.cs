@@ -23,7 +23,7 @@ namespace TimeTrackerBackend.Web
             try
             {
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-               // await context.Database.EnsureDeletedAsync();
+                //await context.Database.EnsureDeletedAsync();
                 await context.Database.EnsureCreatedAsync();
             }
             catch (Exception ex)
