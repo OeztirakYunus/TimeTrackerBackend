@@ -25,7 +25,8 @@ namespace TimeTrackerBackend.Persistence.Repository
         public override async Task Update(Stamp entityToUpdate)
         {
             var entity = await GetByIdAsync(entityToUpdate.Id);
-            if(entity == null) {
+            if (entity == null)
+            {
                 throw new ArgumentNullException("entityToUpdate");
             }
 
@@ -54,7 +55,7 @@ namespace TimeTrackerBackend.Persistence.Repository
 
             var allStampsOfDay = await _context.Stamps.Where(i => i.WorkDayId == entity.WorkDayId && i.Id != entity.Id).ToArrayAsync();
 
-            if(entity.TypeOfStamp == TypeOfStamp.Dienstbeginn && allStampsOfDay.Any(i => entity.Time > i.Time))
+            if (entity.TypeOfStamp == TypeOfStamp.Dienstbeginn && allStampsOfDay.Any(i => entity.Time > i.Time))
             {
                 throw new Exception("Die Uhrzeit von Dienstbeginn darf nicht nach der Uhrzeit von Dienstende und Pausen liegen.");
             }
@@ -74,7 +75,7 @@ namespace TimeTrackerBackend.Persistence.Repository
             //    {
             //        throw new Exception("Die Uhrzeit von der Pause muss vor der Uhrzeit von Dienstende und Pausenende liegen.");
             //    }
-                
+
             //}
             //else if (entity.TypeOfStamp == TypeOfStamp.PauseEnde)
             //{
@@ -96,7 +97,8 @@ namespace TimeTrackerBackend.Persistence.Repository
 
             var currentDate = DateTime.Now;
             var workMonths = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Include(i => i.WorkDays).ToArrayAsync();
-            if(workMonths == null) {
+            if (workMonths == null)
+            {
                 return emptyStamps.ToArray();
             }
 
@@ -125,7 +127,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                 Time = currentDate
             };
 
-            if(workDayId != null)
+            if (workDayId != null)
             {
                 newStamp.WorkDayId = workDayId;
             }
@@ -146,7 +148,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                         }
             };
 
-            if(workMonthId != null)
+            if (workMonthId != null)
             {
                 newWorkDay.WorkMonthId = workMonthId;
             }
@@ -174,10 +176,10 @@ namespace TimeTrackerBackend.Persistence.Repository
         {
             DateTime currentDate = DateTime.Now;
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
-            if(workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden");
+            if (workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden");
             WorkDay workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
             workDay = await _context.WorkDays.Where(i => i.Id == workDay.Id).Include(i => i.Stamps).FirstOrDefaultAsync();
-            if(workDay != null)
+            if (workDay != null)
             {
                 if (workDay.Stamps.Any())
                 {
@@ -185,12 +187,12 @@ namespace TimeTrackerBackend.Persistence.Repository
                     var breakType = TypeOfStamp.Pause;
                     foreach (var item in stamps)
                     {
-                        if(item.TypeOfStamp == TypeOfStamp.Pause)
+                        if (item.TypeOfStamp == TypeOfStamp.Pause)
                         {
                             breakType = TypeOfStamp.PauseEnde;
                             break;
                         }
-                        else if(item.TypeOfStamp == TypeOfStamp.PauseEnde)
+                        else if (item.TypeOfStamp == TypeOfStamp.PauseEnde)
                         {
                             breakType = TypeOfStamp.Pause;
                             break;
@@ -214,7 +216,13 @@ namespace TimeTrackerBackend.Persistence.Repository
 
             if (workMonth != null)
             {
-                var workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
+                var workDay = workMonth.WorkDays.OrderByDescending(i => i.EndDate).FirstOrDefault();
+                if (workDay != null && (currentDate - workDay.EndDate).TotalHours < 11)
+                {
+                    throw new Exception("Es muss zwischen zwei Arbeitstagen mindestens 11 Stunden liegen!");
+                }
+
+                workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
                 if (workDay != null) //Dienstende
                 {
                     workDay = await _context.WorkDays.Where(i => i.Id == workDay.Id).Include(i => i.Stamps).FirstAsync();
@@ -233,8 +241,8 @@ namespace TimeTrackerBackend.Persistence.Repository
 
                     await AddAsync(newStamp);
                     await Update(workMonth);
-                    await Update(workDay);                   
-                }   
+                    await Update(workDay);
+                }
                 else //Dienstbeginn
                 {
                     newReturnWorkDay = CreateWorkDayWithStamp(currentDate, workMonth.Id);

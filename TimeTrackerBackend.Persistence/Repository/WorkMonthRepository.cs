@@ -66,6 +66,11 @@ namespace TimeTrackerBackend.Persistence.Repository
 
         public async Task<WorkMonthDto> GetAsDto(WorkMonth workMonth)
         {
+            if(workMonth == null)
+            {
+                return new WorkMonthDto();
+            }
+
             var date = workMonth.Date;
             workMonth = await _context.WorkMonths.Where(i => i.Id.Equals(workMonth.Id)).Include(i => i.WorkDays).FirstOrDefaultAsync();
             WorkMonthDto workMonthDto = new WorkMonthDto();

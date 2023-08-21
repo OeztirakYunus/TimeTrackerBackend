@@ -52,18 +52,22 @@ namespace CommonBase.Extensions
             {
                 foreach (var item in workMonth.WorkDays[i])
                 {
-                    var color = "none";
                     if(item.EndDate.Equals(DateTime.MinValue) && item.WorkedHours == 0)
                     {
-                        color = "y";
+                        table.AddCell(GetCell(item.StartDate.Date.ToString("dd.MM.yyyy").ToString(), "free"));
+                        var cell = GetCell("Frei", "free");
+                        cell.Colspan = 5;
+                        table.AddCell(cell);
                     }
-
-                    table.AddCell(GetCell(item.StartDate.Date.ToString("dd.MM.yyyy").ToString(), color));
-                    table.AddCell(GetCell(item.StartDate.ToString("HH:mm"), color));
-                    table.AddCell(GetCell(item.EndDate.ToString("HH:mm"), color));
-                    table.AddCell(GetCell(Math.Round(item.BreakHours * 60, 2).ToString(), color));
-                    table.AddCell(GetCell(Math.Round(item.WorkedHours, 2).ToString(), color));
-                    table.AddCell(GetCell(Math.Round(item.WorkedHours + item.BreakHours, 2).ToString(), color));
+                    else
+                    {
+                        table.AddCell(GetCell(item.StartDate.Date.ToString("dd.MM.yyyy").ToString()));
+                        table.AddCell(GetCell(item.StartDate.ToString("HH:mm")));
+                        table.AddCell(GetCell(item.EndDate.ToString("HH:mm")));
+                        table.AddCell(GetCell(Math.Round(item.BreakHours * 60, 2).ToString()));
+                        table.AddCell(GetCell(Math.Round(item.WorkedHours, 2).ToString()));
+                        table.AddCell(GetCell(Math.Round(item.WorkedHours + item.BreakHours, 2).ToString()));
+                    }
                 }
             }
 
@@ -78,14 +82,14 @@ namespace CommonBase.Extensions
             return (bytesOfPdf, filename);
         }
 
-        private static PdfPCell GetCell(string text, string color = "none")
+        private static PdfPCell GetCell(string text, string stampType = "none")
         {
             Font normalFont = new Font(Font.FontFamily.UNDEFINED, 11, Font.NORMAL);
             PdfPCell cell = new PdfPCell(new Phrase(text, normalFont));
             cell.HorizontalAlignment = Element.ALIGN_CENTER;
-            switch (color)
+            switch (stampType)
             {
-                case "y":
+                case "free":
                     cell.BackgroundColor = BaseColor.YELLOW;
                     break;
                 case "g":

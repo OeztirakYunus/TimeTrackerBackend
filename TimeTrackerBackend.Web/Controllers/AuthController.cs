@@ -93,7 +93,7 @@ namespace TimeTrackerBackend.Web.Controllers
 
             foreach (var userRole in userRoles)
             {
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));   
             }
 
             var token = new JwtSecurityToken(
@@ -193,6 +193,12 @@ namespace TimeTrackerBackend.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> AddUser(AddUserDto newUser)
         {
+            var loggedInUser = await GetCurrentUserAsync();
+            if (loggedInUser.EmployeeRole != EmployeeRole.Admin)
+            {
+                return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+            }
+
             var existingUser = await _userManager.FindByEmailAsync(newUser.Email);
             // gibt es schon einen Benutzer mit der Mailadresse?
             if (existingUser != null)
@@ -264,6 +270,20 @@ namespace TimeTrackerBackend.Web.Controllers
             }
         }
 
+        [HttpGet("authenticatedUser")]
+        public async Task<ActionResult<EmployeeDto>> GetAuthenticatedUser()
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                return Ok(user);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeDto>> GetById(string id)
         {
@@ -282,6 +302,41 @@ namespace TimeTrackerBackend.Web.Controllers
                 }
 
                 return EntityToDto(employee);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(EmployeeDto employeeDto)
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                var employee = await _userManager.FindByIdAsync(employeeDto.Id);              
+
+                if (employee == null)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Mitarbeiter nicht gefunden." });
+                }
+
+                if (!employee.CompanyId.Equals(user.CompanyId) || user.EmployeeRole != EmployeeRole.Admin)
+                {
+                    return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+                }
+
+                employee.FirstName = employeeDto.FirstName;
+                employee.LastName = employeeDto.LastName;
+                employee.Email = employeeDto.Email;
+                employee.EmployeeRole = employeeDto.EmployeeRole;
+                employee.NumberOfKids = employeeDto.NumberOfKids;
+                employee.SocialSecurityNumber = employeeDto.SocialSecurityNumber;
+                employee.PhoneNumber = employeeDto.PhoneNumber;
+                await _userManager.UpdateAsync(employee);
+
+                return Ok(new { Status = "Success", Message = "Updated!" });
             }
             catch (System.Exception ex)
             {
@@ -308,6 +363,27 @@ namespace TimeTrackerBackend.Web.Controllers
 
             return employeeDto;
         }
+
+        //private EmployeeEditDto EntityToEditDto(Employee employee)
+        //{
+        //    EmployeeEditDto employeeDto = new EmployeeEditDto()
+        //    {
+        //        Company = employee.Company,
+        //        CompanyId = employee.CompanyId,
+        //        EmployeeRole = employee.EmployeeRole,
+        //        FirstName = employee.FirstName,
+        //        LastName = employee.LastName,
+        //        NumberOfKids = employee.NumberOfKids,
+        //        SocialSecurityNumber = employee.SocialSecurityNumber,
+        //        WorkMonths = employee.WorkMonths,
+        //        PhoneNumber = employee.PhoneNumber,
+        //        Email = employee.Email,
+        //        Id = employee.Id,
+        //        Password = employee.PasswordHash
+        //    };
+
+        //    return employeeDto;
+        //}
 
         [HttpGet("role")]
         public async Task<ActionResult<string>> GetRole()
