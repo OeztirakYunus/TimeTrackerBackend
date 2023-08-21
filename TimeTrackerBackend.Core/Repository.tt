@@ -6,7 +6,7 @@
 <#@ output extension=".cs" #>
 
 <#
-    string className = "Stamp";
+    string className = "Vacation";
 #>
 namespace TimeTrackerBackend.Contracts.Repository
 {

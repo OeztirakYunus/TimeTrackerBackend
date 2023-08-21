@@ -1,6 +1,7 @@
 using TimeTrackerBackend.Core.Contracts.Repository;
 using System;
 using System.Threading.Tasks;
+using TimeTrackerBackend.Contracts.Repository;
 
 namespace TimeTrackerBackend.Core.Contracts
 {
@@ -13,6 +14,7 @@ namespace TimeTrackerBackend.Core.Contracts
         public IWorkDayRepository WorkDayRepository { get; }
         public IWorkMonthRepository WorkMonthRepository { get; }
         public IStampRepository StampRepository { get; }
+        public IVacationRepository VacationRepository { get; }
 
         Task<int> SaveChangesAsync();
         Task DeleteDatabaseAsync();

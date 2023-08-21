@@ -180,6 +180,28 @@ namespace TimeTrackerBackend.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vacations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateOfRequest = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vacations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vacations_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WorkMonths",
                 columns: table => new
                 {
@@ -289,6 +311,11 @@ namespace TimeTrackerBackend.Persistence.Migrations
                 column: "WorkDayId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Vacations_EmployeeId",
+                table: "Vacations",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WorkDays_WorkMonthId",
                 table: "WorkDays",
                 column: "WorkMonthId");
@@ -318,6 +345,9 @@ namespace TimeTrackerBackend.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Stamps");
+
+            migrationBuilder.DropTable(
+                name: "Vacations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

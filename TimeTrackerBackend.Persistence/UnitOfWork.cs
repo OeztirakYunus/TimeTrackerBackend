@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TimeTrackerBackend.Contracts.Repository;
 
 namespace TimeTrackerBackend.Persistence
 {
@@ -30,6 +31,7 @@ namespace TimeTrackerBackend.Persistence
             WorkMonthRepository = new WorkMonthRepository(_context);
             WorkDayRepository = new WorkDayRepository(_context);
             StampRepository = new StampRepository(_context);
+            VacationRepository = new VacationRepository(_context);
         }
 
         //Alle Repos deklarieren. Format:
@@ -38,6 +40,7 @@ namespace TimeTrackerBackend.Persistence
         public IWorkDayRepository WorkDayRepository { get; }
         public IWorkMonthRepository WorkMonthRepository { get; }
         public IStampRepository StampRepository { get; }
+        public IVacationRepository VacationRepository { get; }
 
 
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();

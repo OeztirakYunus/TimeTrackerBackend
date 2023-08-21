@@ -293,6 +293,39 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.ToTable("Stamps");
                 });
 
+            modelBuilder.Entity("TimeTrackerBackend.Core.Entities.Vacation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateOfRequest")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Vacations");
+                });
+
             modelBuilder.Entity("TimeTrackerBackend.Core.Entities.WorkDay", b =>
                 {
                     b.Property<Guid>("Id")
@@ -416,6 +449,15 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("WorkDay");
+                });
+
+            modelBuilder.Entity("TimeTrackerBackend.Core.Entities.Vacation", b =>
+                {
+                    b.HasOne("TimeTrackerBackend.Core.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("TimeTrackerBackend.Core.Entities.WorkDay", b =>

@@ -6,13 +6,13 @@
 <#@ output extension=".cs" #>
 
 <#
-    string className = "User";
+    string className = "Vacation";
 
     var properties = new[]
     { 
-        new { PropertyName = "FirstName", DataType = "string", IsRequired = true },
-        new { PropertyName = "LastName", DataType = "string", IsRequired = true},
-        new { PropertyName = "VC", DataType = "string", IsRequired = true}
+        new { PropertyName = "StartDate", DataType = "DateTime", IsRequired = true },
+        new { PropertyName = "EndDate", DataType = "DateTime", IsRequired = true},
+        new { PropertyName = "Status", DataType = "TypeOfVacation", IsRequired = true}
        
     }.ToList();
 
