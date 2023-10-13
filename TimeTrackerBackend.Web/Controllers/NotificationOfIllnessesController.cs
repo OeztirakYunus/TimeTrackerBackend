@@ -17,29 +17,48 @@ namespace TimeTrackerBackend.Web.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class VacationsController : ControllerBase
+    public class NotificationOfIllnessesController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
         private readonly UserManager<Employee> _userManager;
 
-
-        public VacationsController(IUnitOfWork uow, UserManager<Employee> userManager)
+        public NotificationOfIllnessesController(IUnitOfWork uow, UserManager<Employee> userManager)
         {
             _uow = uow;
             _userManager = userManager;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VacationDto>>> GetAllForUser()
+        public async Task<ActionResult<IEnumerable<NotificationOfIllness>>> GetAll()
         {
             try
             {
                 var user = await GetCurrentUserAsync();
-                var all = await _uow.VacationRepository.GetAllAsyncByEmployeeId(user.Id);
-                var allDto = new List<VacationDto>();
+                var all = await _uow.NotificationOfIllnessRepository.GetAllAsyncByEmployeeId(user.Id);
+                var allDto = new List<NotificationOfIllnessDto>();
                 foreach (var item in all)
                 {
-                    allDto.Add(VacationEntityToDto(item));
+                    allDto.Add(NotificationOfIllnessEntityToDto(item));
+                }
+                return Ok(allDto);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<NotificationOfIllnessDto>>> GetAllForUser()
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                var all = await _uow.NotificationOfIllnessRepository.GetAllAsyncByEmployeeId(user.Id);
+                var allDto = new List<NotificationOfIllnessDto>();
+                foreach (var item in all)
+                {
+                    allDto.Add(NotificationOfIllnessEntityToDto(item));
                 }
                 return Ok(allDto);
             }
@@ -50,37 +69,22 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
         [HttpGet("forCompany")]
-        public async Task<ActionResult<IEnumerable<VacationDto>>> GetAllForCompany()
+        public async Task<ActionResult<IEnumerable<NotificationOfIllnessDto>>> GetAllForCompany()
         {
             try
             {
                 var user = await GetCurrentUserAsync();
-                if(user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
                 {
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
-                var all = await _uow.VacationRepository.GetAllAsyncForCompany((Guid)user.CompanyId);
-                var allDto = new List<VacationDto>();
+                var all = await _uow.NotificationOfIllnessRepository.GetAllAsyncForCompany((Guid)user.CompanyId);
+                var allDto = new List<NotificationOfIllnessDto>();
                 foreach (var item in all)
                 {
-                    allDto.Add(VacationEntityToDto(item));
+                    allDto.Add(NotificationOfIllnessEntityToDto(item));
                 }
                 return Ok(allDto);
-            }
-            catch (System.Exception ex)
-            {
-                return BadRequest(new { Status = "Error", Message = ex.Message });
-            }
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Vacation>> Get(string id)
-        {
-            try
-            {
-                var guid = Guid.Parse(id);
-                var entity = await _uow.VacationRepository.GetByIdAsync(guid);
-                return entity;
             }
             catch (System.Exception ex)
             {
@@ -94,21 +98,21 @@ namespace TimeTrackerBackend.Web.Controllers
             try
             {
                 var user = await GetCurrentUserAsync();
-                var vac = await _uow.VacationRepository.GetByIdAsync(id);
-                var vacEmployee = await _userManager.FindByIdAsync(vac.EmployeeId);
+                var noi = await _uow.NotificationOfIllnessRepository.GetByIdAsync(id);
+                var noiEmployee = await _userManager.FindByIdAsync(noi.EmployeeId);
 
-                if(vac == null)
+                if (noi == null)
                 {
-                    return BadRequest(new { Status = "Error", Message = "Urlaubsantrag nicht gefunden." });
+                    return BadRequest(new { Status = "Error", Message = "Krankmeldung nicht gefunden." });
 
                 }
 
-                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin || vacEmployee.CompanyId != user.CompanyId)
+                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin || noiEmployee.CompanyId != user.CompanyId)
                 {
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
 
-                await _uow.VacationRepository.ConfirmVacation(vac);
+                await _uow.NotificationOfIllnessRepository.Confirm(noi);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
             }
@@ -118,30 +122,44 @@ namespace TimeTrackerBackend.Web.Controllers
             }
         }
 
-
         [HttpGet("reject/{id}")]
         public async Task<IActionResult> Reject(Guid id)
         {
             try
             {
                 var user = await GetCurrentUserAsync();
-                var vac = await _uow.VacationRepository.GetByIdAsync(id);
-                var vacEmployee = await _userManager.FindByIdAsync(vac.EmployeeId);
+                var noi = await _uow.NotificationOfIllnessRepository.GetByIdAsync(id);
+                var noiEmployee = await _userManager.FindByIdAsync(noi.EmployeeId);
 
-                if (vac == null)
+                if (noi == null)
                 {
-                    return BadRequest(new { Status = "Error", Message = "Urlaubsantrag nicht gefunden." });
+                    return BadRequest(new { Status = "Error", Message = "Krankmeldung nicht gefunden." });
 
                 }
 
-                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin || vacEmployee.CompanyId != user.CompanyId)
+                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin || noiEmployee.CompanyId != user.CompanyId)
                 {
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
 
-                await _uow.VacationRepository.RejectVacation(vac);
+                await _uow.NotificationOfIllnessRepository.Reject(noi);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<NotificationOfIllness>> Get(string id)
+        {
+            try
+            {
+                var guid = Guid.Parse(id);
+                var entity = await _uow.NotificationOfIllnessRepository.GetByIdAsync(guid);
+                return entity;
             }
             catch (System.Exception ex)
             {
@@ -150,13 +168,13 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Vacation valueToUpdate)
+        public async Task<IActionResult> Put(NotificationOfIllness valueToUpdate)
         {
             try
             {
-                var entity = await _uow.VacationRepository.GetByIdAsync(valueToUpdate.Id);
+                var entity = await _uow.NotificationOfIllnessRepository.GetByIdAsync(valueToUpdate.Id);
                 valueToUpdate.CopyProperties(entity);
-                await _uow.VacationRepository.Update(entity);
+                await _uow.NotificationOfIllnessRepository.Update(entity);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
             }
@@ -167,16 +185,11 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Vacation valueToAdd)
+        public async Task<IActionResult> Post(NotificationOfIllness valueToAdd)
         {
             try
-            {
-                var user = await GetCurrentUserAsync();
-                valueToAdd.Status = Core.Enums.TypeOfVacation.InBearbeitung;
-                valueToAdd.EmployeeId = user.Id;
-                valueToAdd.DateOfRequest = DateTime.Now;
-
-                await _uow.VacationRepository.AddAsync(valueToAdd);
+            {              
+                await _uow.NotificationOfIllnessRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });
             }
@@ -191,13 +204,8 @@ namespace TimeTrackerBackend.Web.Controllers
         {
             try
             {
-                var user = await GetCurrentUserAsync();
-                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
-                {
-                    return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
-                }
                 var guid = Guid.Parse(id);
-                await _uow.VacationRepository.Remove(guid);
+                await _uow.NotificationOfIllnessRepository.Remove(guid);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Deleted." });
             }
@@ -209,19 +217,20 @@ namespace TimeTrackerBackend.Web.Controllers
 
         private async Task<Employee> GetCurrentUserAsync() => await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
 
-        private VacationDto VacationEntityToDto(Vacation vacation)
+        private NotificationOfIllnessDto NotificationOfIllnessEntityToDto(NotificationOfIllness notificationOfIllness)
         {
-            VacationDto vacationDto = new VacationDto()
+            NotificationOfIllnessDto notificationOfIllnessDto = new NotificationOfIllnessDto()
             {
-                Id = vacation.Id,
-                EmployeeId = vacation.EmployeeId,
-                StartDate = vacation.StartDate,
-                EndDate = vacation.EndDate,
-                DateOfRequest = vacation.DateOfRequest,
-                Status = vacation.Status,
-                Employee = EmployeeEntityToDto(vacation.Employee)
+                Id = notificationOfIllness.Id,
+                StartDate = notificationOfIllness.StartDate,
+                EndDate = notificationOfIllness.EndDate,
+                ConfirmationFile = notificationOfIllness.ConfirmationFile,
+                IsConfirmed = notificationOfIllness.IsConfirmed,
+                EmployeeId = notificationOfIllness.EmployeeId,
+                Employee = EmployeeEntityToDto(notificationOfIllness.Employee)
             };
-            return vacationDto;
+
+            return notificationOfIllnessDto;
         }
 
         private EmployeeDto EmployeeEntityToDto(Employee employee)

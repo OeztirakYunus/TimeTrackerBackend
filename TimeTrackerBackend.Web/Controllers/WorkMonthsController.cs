@@ -157,28 +157,35 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
 
-        [HttpGet("createPdf/{id}")]
-        public async Task<IActionResult> GetPdf(string id)
+        [HttpGet("createPdf/{employeeId}/{workMonthId}/{month}/{year}")]
+        public async Task<IActionResult> GetPdf(string employeeId, string workMonthId, int month, int year)
         {
             try
             {
-                var guid = Guid.Parse(id);
+                var guid = Guid.Empty;
+                if(!string.IsNullOrEmpty(workMonthId) && workMonthId != "null")
+                {
+                    guid = Guid.Parse(workMonthId);
+                }
                 var workMonth = await _uow.WorkMonthRepository.GetByIdAsync(guid);
-                var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
-                var user = await GetCurrentUserAsync();
 
                 if(workMonth == null)
                 {
-                    return BadRequest(new { Status = "Error", Message = "Arbeitsmonat nicht gefunden." });
-
+                    workMonth = new WorkMonth()
+                    {
+                        Id = Guid.Empty,
+                        EmployeeId = employeeId,
+                        Date = new DateTime(year, month, 1)
+                    };
                 }
 
-                if (!employee.CompanyId.Equals(user.CompanyId) || user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
+                var user = await GetCurrentUserAsync();
+
+                if (!employee.CompanyId.Equals(user.CompanyId) || (user.EmployeeRole != Core.Enums.EmployeeRole.Admin && employee.Id != user.Id))
                 {
                     return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
                 }
-
-
 
                 var workMonthDto = await _uow.WorkMonthRepository.GetAsDto(workMonth);
                 var (bytes, path) = PDFCreator.GeneratePdf(workMonthDto);

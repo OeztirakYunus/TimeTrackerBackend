@@ -12,7 +12,7 @@ using TimeTrackerBackend.Persistence;
 namespace TimeTrackerBackend.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230821181022_InitialCreate")]
+    [Migration("20230907140151_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -268,6 +268,39 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TimeTrackerBackend.Core.Entities.NotificationOfIllness", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("ConfirmationFile")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("NotificationOfIllness");
+                });
+
             modelBuilder.Entity("TimeTrackerBackend.Core.Entities.Stamp", b =>
                 {
                     b.Property<Guid>("Id")
@@ -441,6 +474,15 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("TimeTrackerBackend.Core.Entities.NotificationOfIllness", b =>
+                {
+                    b.HasOne("TimeTrackerBackend.Core.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("TimeTrackerBackend.Core.Entities.Stamp", b =>

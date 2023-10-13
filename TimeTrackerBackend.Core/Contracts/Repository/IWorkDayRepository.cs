@@ -6,9 +6,10 @@ namespace TimeTrackerBackend.Core.Contracts.Repository
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using TimeTrackerBackend.Core.DataTransferObjects;
 
     public interface IWorkDayRepository : IRepository<WorkDay>
     {
-        Task<WorkDay> GetDayForEmployee(Employee employee);
+        Task<WorkDayDto> GetDayForEmployee(Employee employee);
     }
 }

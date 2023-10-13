@@ -13173,11 +13173,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
+      "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
       "projectName": "TimeTrackerBackend.Web",
-      "projectPath": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
+      "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
       "packagesPath": "/Users/yunus/.nuget/packages/",
-      "outputPath": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/obj/",
+      "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/yunus/.nuget/NuGet/NuGet.Config"
@@ -13187,18 +13187,18 @@
       ],
       "sources": {
         "/usr/local/share/dotnet/library-packs": {},
-        "/usr/local/share/dotnet/sdk/7.0.306/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
-              "projectPath": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj"
+            "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
+              "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj"
             },
-            "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj": {
-              "projectPath": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj"
+            "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj": {
+              "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj"
             }
           }
         }
@@ -13287,7 +13287,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
       }
     }
   },

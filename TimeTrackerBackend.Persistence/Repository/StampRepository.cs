@@ -214,6 +214,13 @@ namespace TimeTrackerBackend.Persistence.Repository
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
             var newReturnWorkDay = new WorkDay();
 
+            var vacationDay = _context.Vacations.Where(i => i.EmployeeId == employee.Id).Where(i => i.Status == TypeOfVacation.Bestaetigt).Any(i => i.StartDate.Date <= currentDate.Date && i.EndDate.Date >= currentDate.Date);
+
+            if (vacationDay)
+            {
+                throw new Exception("Sie haben momentan Urlaub und können daher nicht Stempeln.");
+            }
+
             if (workMonth != null)
             {
                 var workDay = workMonth.WorkDays.OrderByDescending(i => i.EndDate).FirstOrDefault();
@@ -234,7 +241,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                     newReturnWorkDay = workDay;
                     Stamp newStamp = CreateStamp(TypeOfStamp.Dienstende, currentDate, workDay.Id);
 
-                    workDay.Status = Status.CLOSED;
+                    workDay.Status = Status.CLOSED; 
                     workDay.EndDate = currentDate;
                     workDay.WorkedHours = 0;
                     workMonth.WorkedHours = 0;

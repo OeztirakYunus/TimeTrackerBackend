@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace TimeTrackerBackend.Web
 {
@@ -25,6 +26,11 @@ namespace TimeTrackerBackend.Web
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
                 //await context.Database.EnsureDeletedAsync();
                 await context.Database.EnsureCreatedAsync();
+                var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+                if (pendingMigrations.Any())
+                {
+                    await context.Database.MigrateAsync();
+                }
             }
             catch (Exception ex)
             {

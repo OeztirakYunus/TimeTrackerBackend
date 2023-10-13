@@ -15,11 +15,11 @@ namespace TimeTrackerBackend.Core.Contracts
         public IWorkMonthRepository WorkMonthRepository { get; }
         public IStampRepository StampRepository { get; }
         public IVacationRepository VacationRepository { get; }
+        public INotificationOfIllnessRepository NotificationOfIllnessRepository { get; }
 
         Task<int> SaveChangesAsync();
         Task DeleteDatabaseAsync();
         Task MigrateDatabaseAsync();
         Task CreateDatabaseAsync();
     }
-
 }

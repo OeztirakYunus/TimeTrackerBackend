@@ -6,13 +6,13 @@
 <#@ output extension=".cs" #>
 
 <#
-    string className = "Vacation";
+    string className = "NotificationOfIllness";
 
     var properties = new[]
     { 
         new { PropertyName = "StartDate", DataType = "DateTime", IsRequired = true },
         new { PropertyName = "EndDate", DataType = "DateTime", IsRequired = true},
-        new { PropertyName = "Status", DataType = "TypeOfVacation", IsRequired = true}
+        new { PropertyName = "ConfirmationFile", DataType = "byte[]", IsRequired = false}
        
     }.ToList();
 

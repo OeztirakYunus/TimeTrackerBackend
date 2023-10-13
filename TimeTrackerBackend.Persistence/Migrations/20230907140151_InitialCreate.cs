@@ -180,6 +180,28 @@ namespace TimeTrackerBackend.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "NotificationOfIllness",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ConfirmationFile = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationOfIllness", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NotificationOfIllness_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Vacations",
                 columns: table => new
                 {
@@ -306,6 +328,11 @@ namespace TimeTrackerBackend.Persistence.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_NotificationOfIllness_EmployeeId",
+                table: "NotificationOfIllness",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stamps_WorkDayId",
                 table: "Stamps",
                 column: "WorkDayId");
@@ -342,6 +369,9 @@ namespace TimeTrackerBackend.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "NotificationOfIllness");
 
             migrationBuilder.DropTable(
                 name: "Stamps");

@@ -4,12 +4,14 @@ using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using TimeTrackerBackend.Core.DataTransferObjects;
+using TimeTrackerBackend.Core.Entities;
 using Paragraph = iTextSharp.text.Paragraph;
 
 namespace CommonBase.Extensions
 {
     public static class PDFCreator
     {
+        //Creates a PDF-File for a WorkMonth
         public static (byte[], string) GeneratePdf(WorkMonthDto workMonth)
         {
             string filename = workMonth.Id + ".pdf";
@@ -19,28 +21,34 @@ namespace CommonBase.Extensions
 
             doc.Open();
             Font headerFont = new Font(Font.FontFamily.UNDEFINED, 18, Font.ITALIC);
-            Font underlineFont = new Font(Font.FontFamily.UNDEFINED, 11, Font.UNDERLINE);
-            Font normalFont = new Font(Font.FontFamily.UNDEFINED, 11, Font.NORMAL);
-
             doc.Add(new Paragraph("Stundenzettel Zeiterfassung", headerFont));
 
-            Phrase preText = new Phrase("für Mitarbeiter:", underlineFont);
-            Phrase postText = new Phrase($" {workMonth.Employee.LastName} {workMonth.Employee.FirstName}", normalFont);
-            Paragraph combinedParagraph = new Paragraph();
-            combinedParagraph.Add(preText);
-            combinedParagraph.Add(postText);
-            doc.Add(combinedParagraph);
+            var paragraph = CreateParagraph("für Mitarbeiter:", $" {workMonth.Employee.LastName} {workMonth.Employee.FirstName}");
+            doc.Add(paragraph);
 
-            preText = new Phrase("Monat/Jahr:", underlineFont);
-            postText = new Phrase($" {workMonth.Date.ToString("MMMM")}/{workMonth.Date.ToString("yyyy")}", normalFont);
-            combinedParagraph = new Paragraph();
-            combinedParagraph.Add(preText);
-            combinedParagraph.Add(postText);
-            doc.Add(combinedParagraph);
+            paragraph = CreateParagraph("Monat/Jahr:", $" {workMonth.Date.ToString("MMMM")}/{workMonth.Date.ToString("yyyy")}");
+            doc.Add(paragraph);
             doc.Add(new Paragraph("\n"));
 
+            var table = CreateTable(workMonth);
+            doc.Add(table);
+
+            doc.Close();
+            writer.Close();
+            fs.Close();
+            
+            var bytesOfPdf = File.ReadAllBytes(filename);
+            File.Delete(filename);
+
+            return (bytesOfPdf, filename);
+        }
+
+        private static PdfPTable CreateTable(WorkMonthDto workMonth)
+        {
+
             PdfPTable table = new PdfPTable(6);
-           
+
+            //TableHeader
             table.AddCell(GetCell("Datum", "g"));
             table.AddCell(GetCell("Beginn", "g"));
             table.AddCell(GetCell("Ende", "g"));
@@ -48,14 +56,29 @@ namespace CommonBase.Extensions
             table.AddCell(GetCell("Arbeitszeit in Stunden", "g"));
             table.AddCell(GetCell("Gesamtdauer in Stunden", "g"));
 
+            //ContentRows
             for (int i = 0; i < workMonth.WorkDays.Length; i++)
             {
                 foreach (var item in workMonth.WorkDays[i])
                 {
-                    if(item.EndDate.Equals(DateTime.MinValue) && item.WorkedHours == 0)
+                    if (item.VacationDay || item.IllDay)
+                    {
+                        var text = "Urlaub";
+                        var mode = "vacation";
+                        if (item.IllDay)
+                        {
+                            text = "Krank";
+                            mode = "illness";
+                        }
+                        table.AddCell(GetCell(item.StartDate.Date.ToString("dd.MM.yyyy").ToString(), mode));
+                        var cell = GetCell(text, mode);
+                        cell.Colspan = 5;
+                        table.AddCell(cell);
+                    }
+                    else if (item.EndDate.Equals(DateTime.MinValue) && item.WorkedHours == 0)
                     {
                         table.AddCell(GetCell(item.StartDate.Date.ToString("dd.MM.yyyy").ToString(), "free"));
-                        var cell = GetCell("Frei", "free");
+                        var cell = GetCell("Frei / Kein Eintrag vorhanden", "free");
                         cell.Colspan = 5;
                         table.AddCell(cell);
                     }
@@ -71,15 +94,19 @@ namespace CommonBase.Extensions
                 }
             }
 
-            doc.Add(table);
-            doc.Close();
-            writer.Close();
-            fs.Close();
-            
-            var bytesOfPdf = File.ReadAllBytes(filename);
-            File.Delete(filename);
+            return table;
+        }
 
-            return (bytesOfPdf, filename);
+        private static Paragraph CreateParagraph(string preTextString, string postTextString)
+        {
+            Font underlineFont = new Font(Font.FontFamily.UNDEFINED, 11, Font.UNDERLINE);
+            Font normalFont = new Font(Font.FontFamily.UNDEFINED, 11, Font.NORMAL);
+            Phrase preText = new Phrase(preTextString, underlineFont);
+            Phrase postText = new Phrase(postTextString, normalFont);
+            Paragraph combinedParagraph = new Paragraph();
+            combinedParagraph.Add(preText);
+            combinedParagraph.Add(postText);
+            return combinedParagraph;
         }
 
         private static PdfPCell GetCell(string text, string stampType = "none")
@@ -89,10 +116,13 @@ namespace CommonBase.Extensions
             cell.HorizontalAlignment = Element.ALIGN_CENTER;
             switch (stampType)
             {
-                case "free":
+                case "vacation":
                     cell.BackgroundColor = BaseColor.YELLOW;
                     break;
-                case "g":
+                case "illness":
+                    cell.BackgroundColor = BaseColor.RED;
+                    break;
+                case "free":
                     cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                     break;
                 default:

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {}
+    "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {}
   },
   "projects": {
-    "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
+    "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
+        "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
         "projectName": "TimeTrackerBackend.Core",
-        "projectPath": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
+        "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
         "packagesPath": "/Users/yunus/.nuget/packages/",
-        "outputPath": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Core/obj/",
+        "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/yunus/.nuget/NuGet/NuGet.Config"
@@ -72,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     }

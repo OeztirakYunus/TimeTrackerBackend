@@ -32,6 +32,7 @@ namespace TimeTrackerBackend.Persistence
             WorkDayRepository = new WorkDayRepository(_context);
             StampRepository = new StampRepository(_context);
             VacationRepository = new VacationRepository(_context);
+            NotificationOfIllnessRepository = new NotificationOfIllnessRepository(_context);
         }
 
         //Alle Repos deklarieren. Format:
@@ -41,7 +42,7 @@ namespace TimeTrackerBackend.Persistence
         public IWorkMonthRepository WorkMonthRepository { get; }
         public IStampRepository StampRepository { get; }
         public IVacationRepository VacationRepository { get; }
-
+        public INotificationOfIllnessRepository NotificationOfIllnessRepository { get; }
 
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
         public async Task DeleteDatabaseAsync() => await _context.Database.EnsureDeletedAsync();

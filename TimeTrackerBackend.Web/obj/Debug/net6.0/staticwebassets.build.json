@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "29L51TlFYlFAfiMsgZ2pH75B31KqwmFyKQZXjZ+yWW0=",
+  "Hash": "Plq7qvlXahpftZpH6rC0Fj0X+RuhyIOVtB6L8glfOcg=",
   "Source": "TimeTrackerBackend.Web",
   "BasePath": "_content/TimeTrackerBackend.Web",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "TimeTrackerBackend.Web/wwwroot",
       "Source": "TimeTrackerBackend.Web",
-      "ContentRoot": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/",
+      "ContentRoot": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/",
       "BasePath": "_content/TimeTrackerBackend.Web",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/index.html",
+      "Identity": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/index.html",
       "SourceId": "TimeTrackerBackend.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/yunus/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/",
+      "ContentRoot": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/",
       "BasePath": "_content/TimeTrackerBackend.Web",
       "RelativePath": "index.html",
       "AssetKind": "All",

@@ -16,6 +16,8 @@ namespace TimeTrackerBackend.Persistence
         internal DbSet<WorkDay> WorkDays { get; set; }
         internal DbSet<Stamp> Stamps { get; set; }
         internal DbSet<Vacation> Vacations { get; set; }
+        internal DbSet<NotificationOfIllness> NotificationOfIllness { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

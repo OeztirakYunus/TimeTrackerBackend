@@ -10,6 +10,7 @@ using CommonBase.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using TimeTrackerBackend.Core.DataTransferObjects;
 
 namespace TimeTrackerBackend.Web.Controllers
 {
@@ -31,13 +32,13 @@ namespace TimeTrackerBackend.Web.Controllers
 
         [HttpGet("for-employee")]
         [Authorize]
-        public async Task<ActionResult<WorkDay>> GetDayForEmployee()
+        public async Task<ActionResult<WorkDayDto>> GetDayForEmployee()
         {
             try
             {
                 var user = await GetCurrentUserAsync();
-                var all = await _uow.WorkDayRepository.GetDayForEmployee(user);
-                return Ok(all);
+                var workDay = await _uow.WorkDayRepository.GetDayForEmployee(user);
+                return Ok(workDay);
             }
             catch (System.Exception ex)
             {

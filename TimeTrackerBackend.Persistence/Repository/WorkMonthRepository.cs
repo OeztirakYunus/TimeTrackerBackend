@@ -23,14 +23,89 @@ namespace TimeTrackerBackend.Persistence.Repository
             return _context.WorkMonths.ToArrayAsync();
         }
 
+        public async Task<WorkMonthDto> GetByDate(DateTime date, string employeeId)
+        {
+            var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employeeId)).Where(i => i.Date.Month.Equals(date.Month) && i.Date.Year.Equals(date.Year)).Include(i => i.WorkDays).FirstOrDefaultAsync();
+            return await GetAsDto(workMonth);
+        }
+
+
+        //Returns WorkMonth as DTO with Included Data
+        public async Task<WorkMonthDto> GetAsDto(WorkMonth workMonth)
+        {
+            if(workMonth == null)
+            {
+                return new WorkMonthDto();
+            }
+
+            var date = workMonth.Date;
+            var employeeId = workMonth.EmployeeId;
+            workMonth = await _context.WorkMonths.Where(i => i.Id.Equals(workMonth.Id)).Include(i => i.WorkDays).FirstOrDefaultAsync();
+            WorkMonthDto workMonthDto = new WorkMonthDto();
+            var daysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
+            if (workMonth != null)
+            {
+                workMonth.WorkDays = workMonth.WorkDays.OrderBy(i => i.StartDate).ToList();
+                List<WorkDay> workDaysAsQueue = new List<WorkDay>(workMonth.WorkDays);
+                List<WorkDay>[] workDays = new List<WorkDay>[daysInMonth];
+                           
+                workDays = AddRecursive(0, daysInMonth, date, workDays, workDaysAsQueue);
+                var workDayDtos = await CreateWorkDayDto(workMonth, workDays, daysInMonth);
+                
+
+                workMonthDto.Id = workMonth.Id.ToString();
+                workMonthDto.WorkDays = workDayDtos;
+                workMonthDto.Date = workMonth.Date;
+                workMonthDto.Employee = workMonth.Employee;
+                workMonthDto.EmployeeId = workMonth.EmployeeId;
+                workMonthDto.WorkedHours = workMonth.WorkedHours;
+            }
+            else //Create empty WorkMonthDto
+            {
+                var employee = await _context.Users.FindAsync(employeeId);
+                if(employee == null)
+                {
+                    return new WorkMonthDto();
+                }
+
+                workMonthDto = new WorkMonthDto()
+                {
+                    EmployeeId = employeeId,
+                    Employee = employee,
+                    Date = date,
+                    BreakHours = 0,
+                    Id = Guid.Empty.ToString(),
+                    WorkedHours = 0,
+                    WorkDays = new List<WorkDayDto>[daysInMonth]
+                };
+
+                workMonthDto.WorkDays = await CreateEmptyWorkDay(workMonthDto.WorkDays, date, workMonthDto.EmployeeId);
+                return workMonthDto;
+            }
+
+            //Delete empty WorkDays if WorkDay != null
+            foreach (var item in workMonthDto.WorkDays)
+            {
+                if(item != null && item.Count > 1)
+                {
+                    item.RemoveAll(i => i.Id.Equals(Guid.Empty));
+                }
+            }
+
+            workMonthDto = await IncludeStampsForDto(workMonthDto);
+            workMonthDto = CalculateHours(workMonthDto);
+         
+            return workMonthDto;
+        }
+
+        //Creates List of WorkDay
         private List<WorkDay>[] AddRecursive(int counter, int daysInMonth, DateTime date, List<WorkDay>[] workDays, List<WorkDay> workDaysAsQueue)
         {
-            if(counter < daysInMonth)
+            if (counter < daysInMonth)
             {
                 if (workDays[counter] == null)
                 {
                     workDays[counter] = new List<WorkDay>();
-                        
                 }
                 if (workDaysAsQueue.FirstOrDefault() != null && workDaysAsQueue.FirstOrDefault().StartDate.Day == counter + 1)
                 {
@@ -56,66 +131,57 @@ namespace TimeTrackerBackend.Persistence.Repository
             return workDays;
         }
 
-        public async Task<WorkMonthDto> GetByDate(DateTime date, string employeeId)
+        private async Task<List<WorkDayDto>[]> CreateEmptyWorkDay(List<WorkDayDto>[] workDaysDto, DateTime date,string employeeId)
         {
-            var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employeeId)).Where(i => i.Date.Month.Equals(date.Month) && i.Date.Year.Equals(date.Year)).Include(i => i.WorkDays).FirstOrDefaultAsync();
-            return await GetAsDto(workMonth);
+            var vacations = await _context.Vacations.Where(i => i.EmployeeId == employeeId).Where(i => i.Status == Core.Enums.TypeOfVacation.Bestaetigt).ToListAsync();
+
+            for (int i = 0; i < workDaysDto.Count(); i++)
+            {
+                workDaysDto[i] = new List<WorkDayDto>();
+                WorkDayDto workDayDto = new WorkDayDto()
+                {
+                    Id = Guid.Empty,
+                    StartDate = new DateTime(date.Year, date.Month, i + 1),
+                    BreakHours = 0,
+                    WorkedHours = 0,
+                    EndDate = DateTime.MinValue
+                };
+
+                var vacationDay = vacations.Any(i => i.StartDate.Date <= workDayDto.StartDate.Date && i.EndDate.Date >= workDayDto.StartDate.Date);
+                workDayDto.VacationDay = vacationDay;
+                workDaysDto[i].Add(workDayDto);
+            }
+
+            return workDaysDto;
         }
 
-
-
-        public async Task<WorkMonthDto> GetAsDto(WorkMonth workMonth)
+        private async Task<List<WorkDayDto>[]> CreateWorkDayDto(WorkMonth workMonth, List<WorkDay>[] workDays, int daysInMonth)
         {
-            if(workMonth == null)
-            {
-                return new WorkMonthDto();
-            }
+            List<WorkDayDto>[] workDayDtos = new List<WorkDayDto>[daysInMonth];
+            var vacations = await _context.Vacations.Where(i => i.EmployeeId == workMonth.EmployeeId).Where(i => i.Status == Core.Enums.TypeOfVacation.Bestaetigt).ToListAsync();
 
-            var date = workMonth.Date;
-            workMonth = await _context.WorkMonths.Where(i => i.Id.Equals(workMonth.Id)).Include(i => i.WorkDays).FirstOrDefaultAsync();
-            WorkMonthDto workMonthDto = new WorkMonthDto();
-            var daysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
-            if (workMonth != null)
+            for (int i = 0; i < daysInMonth; i++)
             {
-                workMonth.WorkDays = workMonth.WorkDays.OrderBy(i => i.StartDate).ToList();
-                List<WorkDay> workDaysAsQueue = new List<WorkDay>(workMonth.WorkDays);
-                List<WorkDay>[] workDays = new List<WorkDay>[daysInMonth];
-                           
-                workDays = AddRecursive(0, daysInMonth, date, workDays, workDaysAsQueue);
-
-                workMonthDto.Id = workMonth.Id.ToString();
-                workMonthDto.WorkDays = workDays;
-                workMonthDto.Date = workMonth.Date;
-                workMonthDto.Employee = workMonth.Employee;
-                workMonthDto.EmployeeId = workMonth.EmployeeId;
-                workMonthDto.WorkedHours = workMonth.WorkedHours;
-            }
-            else
-            {
-                workMonthDto = new WorkMonthDto()
+                workDayDtos[i] = new List<WorkDayDto>();
+                foreach (var item in workDays[i])
                 {
-                    WorkDays = new List<WorkDay>[daysInMonth]
-                };
-                for (int i = 0; i < workMonthDto.WorkDays.Count(); i++)
-                {
-                    workMonthDto.WorkDays[i] = new List<WorkDay>();
+                    var vacationDay = vacations.Any(i => i.StartDate.Date <= item.StartDate.Date && i.EndDate.Date >= item.StartDate.Date);
+                    workDayDtos[i].Add(WorkDayEntityToDto(item, vacationDay));
                 }
             }
 
-            foreach (var item in workMonthDto.WorkDays)
-            {
-                if(item != null && item.Count > 1)
-                {
-                    item.RemoveAll(i => i.Id.Equals(Guid.Empty));
-                }
-            }
+            return workDayDtos;
+        }
 
+        private async Task<WorkMonthDto> IncludeStampsForDto(WorkMonthDto workMonthDto)
+        {
             for (int i = 0; i < workMonthDto.WorkDays.Count(); i++) //Include Stamps
             {
                 //var workDayIndex = item.Select((workDay, index) => (workDay, index)).First(i => i.workDay.StartDate.Day.Equals(date.Day)).index;
                 var workDays = workMonthDto.WorkDays[i];
 
-                if(workDays != null) {
+                if (workDays != null)
+                {
                     var workDaysIncluded = new List<WorkDay>();
                     foreach (var workDayItem in workDays)
                     {
@@ -128,12 +194,25 @@ namespace TimeTrackerBackend.Persistence.Repository
 
                     if (!workMonthDto.WorkDays[i].Any(i => i.Id.Equals(Guid.Empty)))
                     {
-                        workMonthDto.WorkDays.ToArray()[i] = workDaysIncluded;
+                        var workDaysIncludedDto = new List<WorkDay>();
+                        var workDaysList = new WorkDayDto[workMonthDto.WorkDays.ToArray()[i].Count()];
+                        Array.Copy(workMonthDto.WorkDays.ToArray()[i].ToArray(), workDaysList, workDaysList.Count());
+                        // var workDaysList = workMonthDto.WorkDays.ToArray()[i];
+                        workMonthDto.WorkDays.ToArray()[i].Clear();
+                        for (int k = 0; k < workDaysIncluded.Count(); k++)
+                        {
+                            workMonthDto.WorkDays.ToArray()[i].Add(WorkDayEntityToDto(workDaysIncluded[k], workDaysList[k].VacationDay));
+                        }
                     }
                 }
             }
 
+            return workMonthDto;
+        }
 
+        //Calculates WorkHours and BreakHours
+        private WorkMonthDto CalculateHours(WorkMonthDto workMonthDto)
+        {
             double workedHoursMonth = 0;
             double breakHoursMonth = 0;
             for (int i = 0; i < workMonthDto.WorkDays.Length; i++)
@@ -144,7 +223,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                     double breakHours = 0;
                     if (workMonthDto.WorkDays[i][j].Stamps != null && workMonthDto.WorkDays[i][j].Stamps.Count > 1)
                     {
-                        if(workMonthDto.WorkDays[i][j].Stamps.Any(i => i.TypeOfStamp == Core.Enums.TypeOfStamp.Dienstbeginn) && workMonthDto.WorkDays[i][j].Stamps.Any(i => i.TypeOfStamp == Core.Enums.TypeOfStamp.Dienstende))
+                        if (workMonthDto.WorkDays[i][j].Stamps.Any(i => i.TypeOfStamp == Core.Enums.TypeOfStamp.Dienstbeginn) && workMonthDto.WorkDays[i][j].Stamps.Any(i => i.TypeOfStamp == Core.Enums.TypeOfStamp.Dienstende))
                         {
                             var startStampDateTime = workMonthDto.WorkDays[i][j].Stamps.Where(i => i.TypeOfStamp == Core.Enums.TypeOfStamp.Dienstbeginn).Select(i => i.Time).FirstOrDefault();
                             var endStampDateTime = workMonthDto.WorkDays[i][j].Stamps.Where(i => i.TypeOfStamp == Core.Enums.TypeOfStamp.Dienstende).Select(i => i.Time).FirstOrDefault();
@@ -158,7 +237,7 @@ namespace TimeTrackerBackend.Persistence.Repository
 
                                 breakHours = (breakEnd.Time - breakBegin.Time).TotalHours;
                             }
-                            
+
                         }
                     }
 
@@ -173,7 +252,6 @@ namespace TimeTrackerBackend.Persistence.Repository
             workMonthDto.BreakHours = breakHoursMonth;
             workMonthDto.WorkedHours = workedHoursMonth;
 
-           
             return workMonthDto;
         }
 
@@ -193,6 +271,24 @@ namespace TimeTrackerBackend.Persistence.Repository
         public async Task<WorkMonth[]> GetByEmployeeId(string employeeId)
         {
             return await _context.WorkMonths.Where(i => employeeId == i.EmployeeId).ToArrayAsync();
+        }
+
+        private WorkDayDto WorkDayEntityToDto(WorkDay workDay, bool vacationDay)
+        {
+            WorkDayDto workDayDto = new WorkDayDto
+            {
+                Id = workDay.Id,
+                Stamps = workDay.Stamps,
+                EndDate = workDay.EndDate,
+                StartDate = workDay.StartDate,
+                Status = workDay.Status,
+                BreakHours = workDay.BreakHours,
+                VacationDay = vacationDay,
+                WorkedHours = workDay.WorkedHours,
+                WorkMonth = workDay.WorkMonth,
+                WorkMonthId = workDay.WorkMonthId
+            };
+            return workDayDto;
         }
     }
 }

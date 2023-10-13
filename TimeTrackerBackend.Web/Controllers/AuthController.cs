@@ -276,7 +276,7 @@ namespace TimeTrackerBackend.Web.Controllers
             try
             {
                 var user = await GetCurrentUserAsync();
-                return Ok(user);
+                return Ok(EntityToDto(user));
             }
             catch (System.Exception ex)
             {
