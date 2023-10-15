@@ -188,6 +188,16 @@ namespace TimeTrackerBackend.Web.Controllers
             try
             {
                 var guid = Guid.Parse(id);
+
+                var user = await GetCurrentUserAsync();
+                var toDelete = await _uow.NotificationOfIllnessRepository.GetByIdAsync(guid);
+                var toDelUser = await _userManager.FindByIdAsync(toDelete.EmployeeId);
+
+                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin || toDelUser.CompanyId != user.CompanyId)
+                {
+                    return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
+                }
+
                 await _uow.NotificationOfIllnessRepository.Remove(guid);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Deleted." });

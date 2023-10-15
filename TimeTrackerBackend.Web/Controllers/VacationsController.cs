@@ -191,12 +191,17 @@ namespace TimeTrackerBackend.Web.Controllers
         {
             try
             {
+                var guid = Guid.Parse(id);
+
                 var user = await GetCurrentUserAsync();
-                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                var toDelete = await _uow.VacationRepository.GetByIdAsync(guid);
+                var toDelUser = await _userManager.FindByIdAsync(toDelete.EmployeeId);
+
+                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin || toDelUser.CompanyId != user.CompanyId)
                 {
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
-                var guid = Guid.Parse(id);
+
                 await _uow.VacationRepository.Remove(guid);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Deleted." });

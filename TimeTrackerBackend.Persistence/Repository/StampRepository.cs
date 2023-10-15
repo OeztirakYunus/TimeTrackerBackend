@@ -176,11 +176,16 @@ namespace TimeTrackerBackend.Persistence.Repository
         {
             DateTime currentDate = DateTime.Now;
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
-            if (workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden");
+            if (workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden.");
             WorkDay workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
             workDay = await _context.WorkDays.Where(i => i.Id == workDay.Id).Include(i => i.Stamps).FirstOrDefaultAsync();
             if (workDay != null)
             {
+                if(workDay.Stamps == null || workDay.Stamps.Count <= 0)
+                {
+                    if (workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden");
+                }
+                
                 if (workDay.Stamps.Any())
                 {
                     var stamps = workDay.Stamps.OrderByDescending(i => i.Time);
@@ -205,7 +210,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                     return workDay;
                 }
             }
-            throw new Exception("Kein Dienstbeginn vorhanden");
+            throw new Exception("Kein Dienstbeginn vorhanden.");
         }
 
         public async Task<WorkDay> StampAsync(Employee employee)
@@ -215,10 +220,15 @@ namespace TimeTrackerBackend.Persistence.Repository
             var newReturnWorkDay = new WorkDay();
 
             var vacationDay = _context.Vacations.Where(i => i.EmployeeId == employee.Id).Where(i => i.Status == TypeOfVacation.Bestaetigt).Any(i => i.StartDate.Date <= currentDate.Date && i.EndDate.Date >= currentDate.Date);
+            var illDay = _context.NotificationOfIllness.Where(i => i.EmployeeId == employee.Id).Where(i => i.IsConfirmed).Any(i => i.StartDate.Date <= currentDate.Date && i.EndDate.Date >= currentDate.Date);
 
             if (vacationDay)
             {
                 throw new Exception("Sie haben momentan Urlaub und können daher nicht Stempeln.");
+            }
+            else if(illDay)
+            {
+                throw new Exception("Sie sind momentan Krank gemeldet und können daher nicht Stempeln.");
             }
 
             if (workMonth != null)
