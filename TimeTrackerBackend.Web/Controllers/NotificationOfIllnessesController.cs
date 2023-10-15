@@ -27,27 +27,7 @@ namespace TimeTrackerBackend.Web.Controllers
             _uow = uow;
             _userManager = userManager;
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<NotificationOfIllness>>> GetAll()
-        {
-            try
-            {
-                var user = await GetCurrentUserAsync();
-                var all = await _uow.NotificationOfIllnessRepository.GetAllAsyncByEmployeeId(user.Id);
-                var allDto = new List<NotificationOfIllnessDto>();
-                foreach (var item in all)
-                {
-                    allDto.Add(NotificationOfIllnessEntityToDto(item));
-                }
-                return Ok(allDto);
-            }
-            catch (System.Exception ex)
-            {
-                return BadRequest(new { Status = "Error", Message = ex.Message });
-            }
-        }
-
+ 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NotificationOfIllnessDto>>> GetAllForUser()
         {
@@ -188,7 +168,10 @@ namespace TimeTrackerBackend.Web.Controllers
         public async Task<IActionResult> Post(NotificationOfIllness valueToAdd)
         {
             try
-            {              
+            {
+                var user = await GetCurrentUserAsync();
+                valueToAdd.IsConfirmed = false;
+                valueToAdd.EmployeeId = user.Id;
                 await _uow.NotificationOfIllnessRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });

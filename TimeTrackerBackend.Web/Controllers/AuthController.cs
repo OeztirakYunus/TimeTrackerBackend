@@ -327,10 +327,14 @@ namespace TimeTrackerBackend.Web.Controllers
                     return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
                 }
 
+                if (!employee.MainUser)
+                {
+                    employee.EmployeeRole = employeeDto.EmployeeRole;
+                }
+
                 employee.FirstName = employeeDto.FirstName;
                 employee.LastName = employeeDto.LastName;
                 employee.Email = employeeDto.Email;
-                employee.EmployeeRole = employeeDto.EmployeeRole;
                 employee.NumberOfKids = employeeDto.NumberOfKids;
                 employee.SocialSecurityNumber = employeeDto.SocialSecurityNumber;
                 employee.PhoneNumber = employeeDto.PhoneNumber;

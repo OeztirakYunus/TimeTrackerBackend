@@ -29,6 +29,7 @@ namespace TimeTrackerBackend.Persistence.Repository
             var workDay = new WorkDay();
             var vacationDay = false;
             var illDay = false;
+
             if(workMonth != null)
             {
                 workDay = workMonth.WorkDays.Where(i => i.Status == Core.Enums.Status.OPEN).FirstOrDefault();
@@ -40,7 +41,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                     vacationDay = true;
                 }
 
-                if(illness != null)
+                if (illness != null)
                 {
                     illDay = true;
                 }

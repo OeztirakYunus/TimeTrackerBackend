@@ -1,0 +1,12 @@
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\bin\Debug\net7.0\TimeTrackerBackend.Core.deps.json
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\bin\Debug\net7.0\TimeTrackerBackend.Core.dll
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\bin\Debug\net7.0\TimeTrackerBackend.Core.pdb
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\TimeTrackerBackend.Core.csproj.AssemblyReference.cache
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\TimeTrackerBackend.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\TimeTrackerBackend.Core.AssemblyInfoInputs.cache
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\TimeTrackerBackend.Core.AssemblyInfo.cs
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\TimeTrackerBackend.Core.csproj.CoreCompileInputs.cache
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\TimeTrackerBackend.Core.dll
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\refint\TimeTrackerBackend.Core.dll
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\TimeTrackerBackend.Core.pdb
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\TimeTrackerBackend.Core\obj\Debug\net7.0\ref\TimeTrackerBackend.Core.dll

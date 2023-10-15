@@ -1,0 +1,15 @@
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\bin\Debug\net7.0\CommonBase.deps.json
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\bin\Debug\net7.0\CommonBase.dll
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\bin\Debug\net7.0\CommonBase.pdb
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\bin\Debug\net7.0\TimeTrackerBackend.Core.dll
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\bin\Debug\net7.0\TimeTrackerBackend.Core.pdb
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.csproj.AssemblyReference.cache
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.AssemblyInfoInputs.cache
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.AssemblyInfo.cs
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.csproj.CoreCompileInputs.cache
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.csproj.CopyComplete
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.dll
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\refint\CommonBase.dll
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\CommonBase.pdb
+C:\Users\oezti\OneDrive\Desktop\TimeTrackerBackend\CommonBase\obj\Debug\net7.0\ref\CommonBase.dll

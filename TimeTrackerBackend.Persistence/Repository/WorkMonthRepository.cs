@@ -134,6 +134,7 @@ namespace TimeTrackerBackend.Persistence.Repository
         private async Task<List<WorkDayDto>[]> CreateEmptyWorkDay(List<WorkDayDto>[] workDaysDto, DateTime date,string employeeId)
         {
             var vacations = await _context.Vacations.Where(i => i.EmployeeId == employeeId).Where(i => i.Status == Core.Enums.TypeOfVacation.Bestaetigt).ToListAsync();
+            var ills = await _context.NotificationOfIllness.Where(i => i.EmployeeId == employeeId).Where(i => i.IsConfirmed).ToListAsync();
 
             for (int i = 0; i < workDaysDto.Count(); i++)
             {
@@ -148,7 +149,9 @@ namespace TimeTrackerBackend.Persistence.Repository
                 };
 
                 var vacationDay = vacations.Any(i => i.StartDate.Date <= workDayDto.StartDate.Date && i.EndDate.Date >= workDayDto.StartDate.Date);
+                var illDay = ills.Any(i => i.StartDate.Date <= workDayDto.StartDate.Date && i.EndDate.Date >= workDayDto.StartDate.Date);
                 workDayDto.VacationDay = vacationDay;
+                workDayDto.IllDay = illDay;
                 workDaysDto[i].Add(workDayDto);
             }
 
@@ -159,6 +162,7 @@ namespace TimeTrackerBackend.Persistence.Repository
         {
             List<WorkDayDto>[] workDayDtos = new List<WorkDayDto>[daysInMonth];
             var vacations = await _context.Vacations.Where(i => i.EmployeeId == workMonth.EmployeeId).Where(i => i.Status == Core.Enums.TypeOfVacation.Bestaetigt).ToListAsync();
+            var ills = await _context.NotificationOfIllness.Where(i => i.EmployeeId == workMonth.EmployeeId).Where(i => i.IsConfirmed).ToListAsync();
 
             for (int i = 0; i < daysInMonth; i++)
             {
@@ -166,7 +170,8 @@ namespace TimeTrackerBackend.Persistence.Repository
                 foreach (var item in workDays[i])
                 {
                     var vacationDay = vacations.Any(i => i.StartDate.Date <= item.StartDate.Date && i.EndDate.Date >= item.StartDate.Date);
-                    workDayDtos[i].Add(WorkDayEntityToDto(item, vacationDay));
+                    var illDay = ills.Any(i => i.StartDate.Date <= item.StartDate.Date && i.EndDate.Date >= item.StartDate.Date);
+                    workDayDtos[i].Add(WorkDayEntityToDto(item, vacationDay, illDay));
                 }
             }
 
@@ -201,7 +206,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                         workMonthDto.WorkDays.ToArray()[i].Clear();
                         for (int k = 0; k < workDaysIncluded.Count(); k++)
                         {
-                            workMonthDto.WorkDays.ToArray()[i].Add(WorkDayEntityToDto(workDaysIncluded[k], workDaysList[k].VacationDay));
+                            workMonthDto.WorkDays.ToArray()[i].Add(WorkDayEntityToDto(workDaysIncluded[k], workDaysList[k].VacationDay, workDaysList[k].IllDay));
                         }
                     }
                 }
@@ -273,7 +278,7 @@ namespace TimeTrackerBackend.Persistence.Repository
             return await _context.WorkMonths.Where(i => employeeId == i.EmployeeId).ToArrayAsync();
         }
 
-        private WorkDayDto WorkDayEntityToDto(WorkDay workDay, bool vacationDay)
+        private WorkDayDto WorkDayEntityToDto(WorkDay workDay, bool vacationDay, bool illDay)
         {
             WorkDayDto workDayDto = new WorkDayDto
             {
@@ -284,6 +289,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                 Status = workDay.Status,
                 BreakHours = workDay.BreakHours,
                 VacationDay = vacationDay,
+                IllDay = illDay,
                 WorkedHours = workDay.WorkedHours,
                 WorkMonth = workDay.WorkMonth,
                 WorkMonthId = workDay.WorkMonthId
