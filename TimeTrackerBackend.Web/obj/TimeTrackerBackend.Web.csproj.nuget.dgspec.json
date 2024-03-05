@@ -1,40 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\TimeTrackerBackend.Web.csproj": {}
+    "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\CommonBase\\CommonBase.csproj": {
+    "/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/CommonBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\CommonBase\\CommonBase.csproj",
+        "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/CommonBase.csproj",
         "projectName": "CommonBase",
-        "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\CommonBase\\CommonBase.csproj",
-        "packagesPath": "C:\\Users\\oezti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\CommonBase\\obj\\",
+        "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/CommonBase.csproj",
+        "packagesPath": "/Users/yunus/.nuget/packages/",
+        "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\oezti\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yunus/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj": {
-                "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj"
+              "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
+                "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj"
               }
             }
           }
@@ -82,33 +76,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj": {
+    "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj",
+        "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
         "projectName": "TimeTrackerBackend.Core",
-        "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj",
-        "packagesPath": "C:\\Users\\oezti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\obj\\",
+        "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
+        "packagesPath": "/Users/yunus/.nuget/packages/",
+        "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\oezti\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yunus/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -160,44 +148,38 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\TimeTrackerBackend.Persistence.csproj": {
+    "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\TimeTrackerBackend.Persistence.csproj",
+        "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj",
         "projectName": "TimeTrackerBackend.Persistence",
-        "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\TimeTrackerBackend.Persistence.csproj",
-        "packagesPath": "C:\\Users\\oezti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\obj\\",
+        "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj",
+        "packagesPath": "/Users/yunus/.nuget/packages/",
+        "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\oezti\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yunus/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\CommonBase\\CommonBase.csproj": {
-                "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\CommonBase\\CommonBase.csproj"
+              "/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/CommonBase.csproj": {
+                "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/CommonBase.csproj"
               },
-              "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj": {
-                "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj"
+              "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
+                "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj"
               }
             }
           }
@@ -269,44 +251,39 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\TimeTrackerBackend.Web.csproj": {
+    "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\TimeTrackerBackend.Web.csproj",
+        "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
         "projectName": "TimeTrackerBackend.Web",
-        "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\TimeTrackerBackend.Web.csproj",
-        "packagesPath": "C:\\Users\\oezti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\obj\\",
+        "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
+        "packagesPath": "/Users/yunus/.nuget/packages/",
+        "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\oezti\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yunus/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "/usr/local/share/dotnet/library-packs": {},
+          "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj": {
-                "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj"
+              "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
+                "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj"
               },
-              "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\TimeTrackerBackend.Persistence.csproj": {
-                "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\TimeTrackerBackend.Persistence.csproj"
+              "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj": {
+                "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj"
               }
             }
           }
@@ -327,33 +304,33 @@
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
-              "version": "[7.0.12, )"
+              "version": "[6.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
-              "version": "[7.0.12, )"
+              "version": "[6.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[7.0.12, )"
+              "version": "[6.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.12, )"
+              "version": "[6.0.8, )"
             },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
-              "version": "[1.19.5, )"
+              "version": "[1.17.0, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[7.0.10, )"
+              "version": "[6.0.8, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[13.0.3, )"
+              "version": "[13.0.1, )"
             },
             "Swashbuckle": {
               "target": "Package",
@@ -361,19 +338,19 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.5.0, )"
+              "version": "[6.4.0, )"
             },
             "Swashbuckle.AspNetCore.Newtonsoft": {
               "target": "Package",
-              "version": "[6.5.0, )"
+              "version": "[6.4.0, )"
             },
             "Swashbuckle.AspNetCore.Swagger": {
               "target": "Package",
-              "version": "[6.5.0, )"
+              "version": "[6.4.0, )"
             },
             "Swashbuckle.AspNetCore.SwaggerGen": {
               "target": "Package",
-              "version": "[6.5.0, )"
+              "version": "[6.4.0, )"
             }
           },
           "imports": [
@@ -395,7 +372,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     }

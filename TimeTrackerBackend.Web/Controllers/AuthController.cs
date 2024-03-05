@@ -327,20 +327,24 @@ namespace TimeTrackerBackend.Web.Controllers
                     return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
                 }
 
-                if (!employee.MainUser)
-                {
-                    employee.EmployeeRole = employeeDto.EmployeeRole;
-                }
-
                 employee.FirstName = employeeDto.FirstName;
                 employee.LastName = employeeDto.LastName;
                 employee.Email = employeeDto.Email;
                 employee.NumberOfKids = employeeDto.NumberOfKids;
                 employee.SocialSecurityNumber = employeeDto.SocialSecurityNumber;
                 employee.PhoneNumber = employeeDto.PhoneNumber;
-                await _userManager.UpdateAsync(employee);
 
-                return Ok(new { Status = "Success", Message = "Updated!" });
+                if (employee.MainUser && employeeDto.EmployeeRole == EmployeeRole.User)
+                {
+                    await _userManager.UpdateAsync(employee);
+                    return BadRequest(new { Status = "Error", Message = "Die Rolle des Hauptbenutzers darf nicht verändert werden! Die übrigen Daten wurden erfolgreich gespeichert." });
+                }
+                else
+                {
+                    employee.EmployeeRole = employeeDto.EmployeeRole;
+                    await _userManager.UpdateAsync(employee);
+                    return Ok(new { Status = "Success", Message = "Updated!" });
+                }
             }
             catch (System.Exception ex)
             {

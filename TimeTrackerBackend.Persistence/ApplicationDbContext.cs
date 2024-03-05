@@ -62,7 +62,7 @@ namespace TimeTrackerBackend.Persistence
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 var configuration = builder.Build();
                 Debug.Write(configuration.ToString());
-                connectionString = configuration["ConnectionStrings:DefaultConnectionWIN"];
+                connectionString = configuration["ConnectionStrings:DefaultConnection"];
             }
             Console.WriteLine($"!!!!Connecting with {connectionString}");
             optionsBuilder
