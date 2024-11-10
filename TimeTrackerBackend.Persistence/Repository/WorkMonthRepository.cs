@@ -240,7 +240,7 @@ namespace TimeTrackerBackend.Persistence.Repository
                                 var breakEnd = breakStamps.Dequeue();
                                 var breakBegin = breakStamps.Dequeue();
 
-                                breakHours = (breakEnd.Time - breakBegin.Time).TotalHours;
+                                breakHours += (breakEnd.Time - breakBegin.Time).TotalHours;
                             }
 
                         }

@@ -44,14 +44,80 @@ namespace TimeTrackerBackend.Web.Controllers
             }
         }
 
-        [HttpGet("break")]
+        [HttpGet("stamp/{employeeId}/{dateTime}")]
         [Authorize]
-        public async Task<IActionResult> TakeABreak()
+        public async Task<IActionResult> StampManually(string employeeId, DateTime dateTime)
         {
             try
             {
                 var user = await GetCurrentUserAsync();
-                var workDay = await _uow.StampRepository.TakeABreakAsync(user);
+                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Sie sind kein Admin." });
+                }
+
+                var employee = await _userManager.FindByIdAsync(employeeId);
+                if (employee == null)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Mitarbeiter nicht gefunden." });
+                }
+
+                if (!employee.CompanyId.Equals(user.CompanyId))
+                {
+                    return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+                }
+
+                DateTime currentDate = DateTime.Now;
+                DateTime updatedDateTime = new DateTime(
+                    dateTime.Year,
+                    dateTime.Month,
+                    dateTime.Day,
+                    currentDate.Hour,
+                    currentDate.Minute,
+                    currentDate.Second
+                );
+                var workDay = await _uow.StampRepository.StampManuallyAsync(employee, updatedDateTime);
+                await _uow.SaveChangesAsync();
+                return Ok(workDay);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpGet("break/{employeeId}/{dateTime}")]
+        [Authorize]
+        public async Task<IActionResult> TakeABreakManually(string employeeId, DateTime dateTime)
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                if (user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Sie sind kein Admin." });
+                }
+
+                var employee = await _userManager.FindByIdAsync(employeeId);
+                if (employee == null)
+                {
+                    return BadRequest(new { Status = "Error", Message = "Mitarbeiter nicht gefunden." });
+                }
+
+                if (!employee.CompanyId.Equals(user.CompanyId))
+                {
+                    return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+                }
+                DateTime currentDate = DateTime.Now;
+                DateTime updatedDateTime = new DateTime(
+                    dateTime.Year,
+                    dateTime.Month,
+                    dateTime.Day,
+                    currentDate.Hour,
+                    currentDate.Minute,
+                    currentDate.Second
+                );
+                var workDay = await _uow.StampRepository.TakeABreakAsync(employee, updatedDateTime);
                 await _uow.SaveChangesAsync();
                 return Ok(workDay);
             }
@@ -116,7 +182,7 @@ namespace TimeTrackerBackend.Web.Controllers
                 var workMonth = await _uow.WorkMonthRepository.GetByIdAsync((Guid)workDay.WorkMonthId);
                 var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
 
-                if(user.CompanyId != employee.CompanyId || user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                if (user.CompanyId != employee.CompanyId || user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
                 {
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
@@ -135,7 +201,7 @@ namespace TimeTrackerBackend.Web.Controllers
         public async Task<IActionResult> Post(Stamp valueToAdd)
         {
             try
-            {              
+            {
                 await _uow.StampRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });

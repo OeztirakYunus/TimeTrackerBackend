@@ -172,9 +172,9 @@ namespace TimeTrackerBackend.Persistence.Repository
         }
 
 
-        public async Task<WorkDay> TakeABreakAsync(Employee employee)
+        public async Task<WorkDay> TakeABreakAsync(Employee employee, DateTime ?dateTime = null)
         {
-            DateTime currentDate = DateTime.Now;
+            DateTime currentDate = (DateTime)(dateTime == null ? DateTime.Now : dateTime);
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
             if (workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden.");
             WorkDay workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
@@ -213,9 +213,9 @@ namespace TimeTrackerBackend.Persistence.Repository
             throw new Exception("Kein Dienstbeginn vorhanden.");
         }
 
-        public async Task<WorkDay> StampAsync(Employee employee)
+        public async Task<WorkDay> StampAsync(Employee employee, DateTime ?dateTime = null)
         {
-            DateTime currentDate = DateTime.Now;
+            DateTime currentDate = (DateTime)(dateTime == null ? DateTime.Now : dateTime);
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
             var newReturnWorkDay = new WorkDay();
 
@@ -273,6 +273,16 @@ namespace TimeTrackerBackend.Persistence.Repository
             }
 
             return newReturnWorkDay;
+        }
+
+        public async Task<WorkDay> StampManuallyAsync(Employee employee, DateTime dateTime)
+        {
+            return await StampAsync(employee, dateTime);
+        }
+
+        public async Task<WorkDay> TakeABreakManuallyAsync(Employee employee, DateTime dateTime)
+        {
+            return await TakeABreakAsync(employee, dateTime);
         }
     }
 }
