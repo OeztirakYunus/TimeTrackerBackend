@@ -13266,43 +13266,37 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\oezti\\.nuget\\packages\\": {},
-    "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/yunus/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\TimeTrackerBackend.Web.csproj",
+      "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
       "projectName": "TimeTrackerBackend.Web",
-      "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\TimeTrackerBackend.Web.csproj",
-      "packagesPath": "C:\\Users\\oezti\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\obj\\",
+      "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/TimeTrackerBackend.Web.csproj",
+      "packagesPath": "/Users/yunus/.nuget/packages/",
+      "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\oezti\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/yunus/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "/usr/local/share/dotnet/library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj": {
-              "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj"
+            "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj": {
+              "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj"
             },
-            "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\TimeTrackerBackend.Persistence.csproj": {
-              "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Persistence\\TimeTrackerBackend.Persistence.csproj"
+            "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj": {
+              "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Persistence/TimeTrackerBackend.Persistence.csproj"
             }
           }
         }
@@ -13391,7 +13385,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -13400,7 +13394,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'BouncyCastle 1.8.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"BouncyCastle 1.8.9\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "BouncyCastle",
       "targetGraphs": [
         "net7.0"
@@ -13410,7 +13404,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'iTextSharp 5.5.13.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"iTextSharp 5.5.13.3\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "iTextSharp",
       "targetGraphs": [
         "net7.0"
@@ -13420,7 +13414,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.WebApi.Client 4.0.20710' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"Microsoft.AspNet.WebApi.Client 4.0.20710\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "Microsoft.AspNet.WebApi.Client",
       "targetGraphs": [
         "net7.0"
@@ -13430,7 +13424,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.WebApi.Core 4.0.20710' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"Microsoft.AspNet.WebApi.Core 4.0.20710\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "Microsoft.AspNet.WebApi.Core",
       "targetGraphs": [
         "net7.0"
@@ -13440,7 +13434,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.WebApi.WebHost 4.0.20710' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"Microsoft.AspNet.WebApi.WebHost 4.0.20710\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "Microsoft.AspNet.WebApi.WebHost",
       "targetGraphs": [
         "net7.0"
@@ -13450,7 +13444,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.Net.Http 2.0.20710' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"Microsoft.Net.Http 2.0.20710\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "Microsoft.Net.Http",
       "targetGraphs": [
         "net7.0"
@@ -13460,7 +13454,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.Web.Infrastructure 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"Microsoft.Web.Infrastructure 1.0.0\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "Microsoft.Web.Infrastructure",
       "targetGraphs": [
         "net7.0"
@@ -13470,7 +13464,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Swashbuckle.Core 5.6.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"Swashbuckle.Core 5.6.0\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "Swashbuckle.Core",
       "targetGraphs": [
         "net7.0"
@@ -13480,7 +13474,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'WebActivatorEx 2.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "Das Paket \"WebActivatorEx 2.0.0\" wurde nicht mit dem Projektzielframework \"net7.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "WebActivatorEx",
       "targetGraphs": [
         "net7.0"

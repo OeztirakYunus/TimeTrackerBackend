@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TimeTrackerBackend.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -93,7 +93,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         name: "FK_AspNetUsers_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,7 +201,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         name: "FK_NotificationOfIllness_AspNetUsers_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,7 +224,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         name: "FK_Vacations_AspNetUsers_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -241,7 +244,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         name: "FK_WorkMonths_AspNetUsers_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,7 +266,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         name: "FK_WorkDays_WorkMonths_WorkMonthId",
                         column: x => x.WorkMonthId,
                         principalTable: "WorkMonths",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,7 +287,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         name: "FK_Stamps_WorkDays_WorkDayId",
                         column: x => x.WorkDayId,
                         principalTable: "WorkDays",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -321,6 +327,20 @@ namespace TimeTrackerBackend.Persistence.Migrations
                 name: "IX_AspNetUsers_CompanyId",
                 table: "AspNetUsers",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_Email",
+                table: "AspNetUsers",
+                column: "Email",
+                unique: true,
+                filter: "[Email] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserName",
+                table: "AspNetUsers",
+                column: "UserName",
+                unique: true,
+                filter: "[UserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",

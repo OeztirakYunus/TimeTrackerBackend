@@ -255,6 +255,10 @@ namespace TimeTrackerBackend.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -262,6 +266,10 @@ namespace TimeTrackerBackend.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -469,7 +477,7 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.HasOne("TimeTrackerBackend.Core.Entities.Company", "Company")
                         .WithMany("Employees")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
                 });
@@ -478,7 +486,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                 {
                     b.HasOne("TimeTrackerBackend.Core.Entities.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Employee");
                 });
@@ -488,7 +497,7 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.HasOne("TimeTrackerBackend.Core.Entities.WorkDay", "WorkDay")
                         .WithMany("Stamps")
                         .HasForeignKey("WorkDayId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("WorkDay");
                 });
@@ -497,7 +506,8 @@ namespace TimeTrackerBackend.Persistence.Migrations
                 {
                     b.HasOne("TimeTrackerBackend.Core.Entities.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Employee");
                 });
@@ -507,7 +517,7 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.HasOne("TimeTrackerBackend.Core.Entities.WorkMonth", "WorkMonth")
                         .WithMany("WorkDays")
                         .HasForeignKey("WorkMonthId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("WorkMonth");
                 });
@@ -517,7 +527,7 @@ namespace TimeTrackerBackend.Persistence.Migrations
                     b.HasOne("TimeTrackerBackend.Core.Entities.Employee", "Employee")
                         .WithMany("WorkMonths")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Employee");
                 });

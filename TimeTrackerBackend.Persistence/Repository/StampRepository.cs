@@ -32,7 +32,7 @@ namespace TimeTrackerBackend.Persistence.Repository
 
             var prevTime = entity.Time;
             entity.Time = entityToUpdate.Time;
-            entity.Time = entity.Time.AddHours(2); //Aufgrund eines Fehlers, muss 2h hinzugefügt werden.
+            entity.Time = entity.Time.AddHours(1); //Aufgrund eines Fehlers, muss 2h hinzugefügt werden.
 
             if (entity.TypeOfStamp == TypeOfStamp.Dienstbeginn || entity.TypeOfStamp == TypeOfStamp.Dienstende)
             {
@@ -283,6 +283,14 @@ namespace TimeTrackerBackend.Persistence.Repository
         public async Task<WorkDay> TakeABreakManuallyAsync(Employee employee, DateTime dateTime)
         {
             return await TakeABreakAsync(employee, dateTime);
+        }
+
+        public async Task UpdateStamps(List<Stamp> entitiesToUpdate)
+        {
+            foreach (var item in entitiesToUpdate)
+            {
+                await Update(item);
+            }
         }
     }
 }

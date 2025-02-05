@@ -14,5 +14,6 @@ namespace TimeTrackerBackend.Core.Contracts.Repository
         Task<WorkDay> TakeABreakManuallyAsync(Employee employee, DateTime dateTime);
         Task<WorkDay> StampManuallyAsync(Employee employee, DateTime dateTime);
         Task<Stamp[]> GetForDayForEmployee(Employee employee);
+        Task UpdateStamps(List<Stamp> entitiesToUpdate);
     }
 }

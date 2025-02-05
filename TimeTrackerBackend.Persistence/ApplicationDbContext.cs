@@ -22,33 +22,62 @@ namespace TimeTrackerBackend.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder
-               .Entity<Company>()
-               .HasMany(e => e.Employees)
-               .WithOne(i => i.Company)
-               .OnDelete(DeleteBehavior.ClientCascade);
 
-            modelBuilder
-               .Entity<Employee>()
-               .HasMany(e => e.WorkMonths)
-               .WithOne(i => i.Employee)
-               .OnDelete(DeleteBehavior.ClientCascade);
+            // Company -> Employees
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.Employees)
+                .WithOne(e => e.Company)
+                .HasForeignKey(e => e.CompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder
-               .Entity<Stamp>()
-               .HasOne(e => e.WorkDay);
+            // Employee -> WorkMonths
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.WorkMonths)
+                .WithOne(wm => wm.Employee)
+                .HasForeignKey(wm => wm.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder
-               .Entity<WorkDay>()
-               .HasMany(e => e.Stamps)
-               .WithOne(i => i.WorkDay)
-               .OnDelete(DeleteBehavior.ClientCascade);
+            // WorkMonth -> WorkDays
+            modelBuilder.Entity<WorkMonth>()
+                .HasMany(wm => wm.WorkDays)
+                .WithOne(wd => wd.WorkMonth)
+                .HasForeignKey(wd => wd.WorkMonthId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder
-                .Entity<WorkMonth>()
-                .HasMany(e => e.WorkDays)
-                .WithOne(i => i.WorkMonth)
-                .OnDelete(DeleteBehavior.ClientCascade);
+            // WorkDay -> Stamps
+            modelBuilder.Entity<WorkDay>()
+                .HasMany(wd => wd.Stamps)
+                .WithOne(s => s.WorkDay)
+                .HasForeignKey(s => s.WorkDayId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Stamp -> WorkDay
+            modelBuilder.Entity<Stamp>()
+                .HasOne(s => s.WorkDay)
+                .WithMany(wd => wd.Stamps)
+                .HasForeignKey(s => s.WorkDayId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Employee -> Notifications of Illness
+            modelBuilder.Entity<NotificationOfIllness>()
+                .HasOne(noi => noi.Employee)
+                .WithMany()
+                .HasForeignKey(noi => noi.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Employee -> Vacations
+            modelBuilder.Entity<Vacation>()
+                .HasOne(v => v.Employee)
+                .WithMany()
+                .HasForeignKey(v => v.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure Identity Tables
+            modelBuilder.Entity<Employee>(b =>
+            {
+                b.HasIndex(u => u.Email).IsUnique();
+                b.HasIndex(u => u.UserName).IsUnique();
+            });
 
         }
 
@@ -62,7 +91,7 @@ namespace TimeTrackerBackend.Persistence
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 var configuration = builder.Build();
                 Debug.Write(configuration.ToString());
-                connectionString = configuration["ConnectionStrings:DefaultConnectionWIN"];
+                connectionString = configuration["ConnectionStrings:DefaultConnection"];
             }
             Console.WriteLine($"!!!!Connecting with {connectionString}");
             optionsBuilder

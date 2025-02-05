@@ -1912,32 +1912,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\oezti\\.nuget\\packages\\": {},
-    "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/yunus/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj",
+      "projectUniqueName": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
       "projectName": "TimeTrackerBackend.Core",
-      "projectPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\TimeTrackerBackend.Core.csproj",
-      "packagesPath": "C:\\Users\\oezti\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Core\\obj\\",
+      "projectPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/TimeTrackerBackend.Core.csproj",
+      "packagesPath": "/Users/yunus/.nuget/packages/",
+      "outputPath": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Core/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\oezti\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/yunus/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1989,7 +1982,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
       }
     }
   }

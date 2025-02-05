@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "m0q84aiTrJ+KjDFWkiwGb3UA2RXBEZ2p+F2iSoP2E7c=",
+  "Hash": "Plq7qvlXahpftZpH6rC0Fj0X+RuhyIOVtB6L8glfOcg=",
   "Source": "TimeTrackerBackend.Web",
   "BasePath": "_content/TimeTrackerBackend.Web",
   "Mode": "Default",
@@ -8,19 +8,19 @@
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "TimeTrackerBackend.Web\\wwwroot",
+      "Name": "TimeTrackerBackend.Web/wwwroot",
       "Source": "TimeTrackerBackend.Web",
-      "ContentRoot": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\wwwroot\\",
+      "ContentRoot": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/",
       "BasePath": "_content/TimeTrackerBackend.Web",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\wwwroot\\index.html",
+      "Identity": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/index.html",
       "SourceId": "TimeTrackerBackend.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\oezti\\OneDrive\\Desktop\\TimeTrackerBackend\\TimeTrackerBackend.Web\\wwwroot\\",
+      "ContentRoot": "/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/wwwroot/",
       "BasePath": "_content/TimeTrackerBackend.Web",
       "RelativePath": "index.html",
       "AssetKind": "All",
@@ -31,7 +31,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\index.html"
+      "OriginalItemSpec": "wwwroot/index.html"
     }
   ]
 }

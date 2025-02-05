@@ -86,6 +86,23 @@ namespace TimeTrackerBackend.Web.Controllers
             }
         }
 
+        [HttpGet("break")]
+        [Authorize]
+        public async Task<IActionResult> TakeABreak()
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                var workDay = await _uow.StampRepository.TakeABreakAsync(user);
+                await _uow.SaveChangesAsync();
+                return Ok(workDay);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
         [HttpGet("break/{employeeId}/{dateTime}")]
         [Authorize]
         public async Task<IActionResult> TakeABreakManually(string employeeId, DateTime dateTime)
@@ -188,6 +205,34 @@ namespace TimeTrackerBackend.Web.Controllers
                 }
 
                 await _uow.StampRepository.Update(valueToUpdate);
+                await _uow.SaveChangesAsync();
+                return Ok(new { Status = "Success", Message = "Updated!" });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPut("updateMany")]
+        public async Task<IActionResult> Put(Stamp[] valuesToUpdate)
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                foreach (var item in valuesToUpdate)
+                {
+                    var workDay = await _uow.WorkDayRepository.GetByIdAsync((Guid)item.WorkDayId);
+                    var workMonth = await _uow.WorkMonthRepository.GetByIdAsync((Guid)workDay.WorkMonthId);
+                    var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
+
+                    if (user.CompanyId != employee.CompanyId || user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
+                    {
+                        return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
+                    }
+                }
+
+                await _uow.StampRepository.UpdateStamps(valuesToUpdate.ToList());
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
             }
