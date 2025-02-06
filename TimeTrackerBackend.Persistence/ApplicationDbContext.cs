@@ -83,7 +83,7 @@ namespace TimeTrackerBackend.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            var connectionString = Environment.GetEnvironmentVariable("SQLServerConnection");
             if (string.IsNullOrEmpty(connectionString))
             {
                 var builder = new ConfigurationBuilder()
