@@ -139,7 +139,7 @@ namespace TimeTrackerBackend.Persistence.Repository
         {
             WorkDay newWorkDay = new WorkDay()
             {
-                StartDate = currentDate,
+                StartDate = currentDate.ToUniversalTime(),
                 Status = Status.OPEN,
                 WorkedHours = 0,
                 Stamps = new List<Stamp>()
@@ -162,7 +162,7 @@ namespace TimeTrackerBackend.Persistence.Repository
 
             WorkMonth newWorkMonth = new WorkMonth()
             {
-                Date = currentDate,
+                Date = currentDate.ToUniversalTime(),
                 WorkedHours = 0,
                 EmployeeId = employeeId,
                 WorkDays = new List<WorkDay>() { newReturnWorkDay }
@@ -174,14 +174,17 @@ namespace TimeTrackerBackend.Persistence.Repository
 
         public async Task<WorkDay> TakeABreakAsync(Employee employee, DateTime ?dateTime = null)
         {
-            DateTime currentDate = (DateTime)(dateTime == null ? DateTime.Now : dateTime);
+            DateTime currentDate = (DateTime)(dateTime == null ? DateTime.Now.ToUniversalTime() : dateTime);
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
             if (workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden.");
             WorkDay workDay = workMonth.WorkDays.Where(i => i.Status == Status.OPEN).FirstOrDefault();
+            if (workDay == null) {
+                throw new Exception("Kein Dienstbeginn vorhanden.");
+            }
             workDay = await _context.WorkDays.Where(i => i.Id == workDay.Id).Include(i => i.Stamps).FirstOrDefaultAsync();
             if (workDay != null)
             {
-                if(workDay.Stamps == null || workDay.Stamps.Count <= 0)
+                if (workDay.Stamps == null || workDay.Stamps.Count <= 0)
                 {
                     if (workMonth == null) throw new Exception("Kein Dienstbeginn vorhanden");
                 }
@@ -215,7 +218,8 @@ namespace TimeTrackerBackend.Persistence.Repository
 
         public async Task<WorkDay> StampAsync(Employee employee, DateTime ?dateTime = null)
         {
-            DateTime currentDate = (DateTime)(dateTime == null ? DateTime.Now : dateTime);
+            DateTime currentDate = (DateTime)(dateTime == null ? DateTime.Now.ToUniversalTime() : dateTime);
+            currentDate = currentDate.AddHours(1); //Aufgrund eines Fehlers +1;
             var workMonth = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Where(i => i.Date.Year.Equals(currentDate.Year) && i.Date.Month.Equals(currentDate.Month)).Include(i => i.WorkDays).FirstOrDefaultAsync();
             var newReturnWorkDay = new WorkDay();
 

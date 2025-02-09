@@ -67,15 +67,15 @@ namespace TimeTrackerBackend.Web.Controllers
                     return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
                 }
 
-                DateTime currentDate = DateTime.Now;
+                DateTime currentDate = DateTime.Now.ToUniversalTime();
                 DateTime updatedDateTime = new DateTime(
                     dateTime.Year,
                     dateTime.Month,
                     dateTime.Day,
-                    currentDate.Hour,
+                    currentDate.Hour + 1,
                     currentDate.Minute,
                     currentDate.Second
-                );
+                ).ToUniversalTime();
                 var workDay = await _uow.StampRepository.StampManuallyAsync(employee, updatedDateTime);
                 await _uow.SaveChangesAsync();
                 return Ok(workDay);
@@ -125,7 +125,7 @@ namespace TimeTrackerBackend.Web.Controllers
                 {
                     return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
                 }
-                DateTime currentDate = DateTime.Now;
+                DateTime currentDate = DateTime.Now.ToUniversalTime();
                 DateTime updatedDateTime = new DateTime(
                     dateTime.Year,
                     dateTime.Month,
@@ -133,7 +133,7 @@ namespace TimeTrackerBackend.Web.Controllers
                     currentDate.Hour,
                     currentDate.Minute,
                     currentDate.Second
-                );
+                ).ToUniversalTime();
                 var workDay = await _uow.StampRepository.TakeABreakAsync(employee, updatedDateTime);
                 await _uow.SaveChangesAsync();
                 return Ok(workDay);
@@ -204,6 +204,7 @@ namespace TimeTrackerBackend.Web.Controllers
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
 
+                valueToUpdate = DateToUTC(valueToUpdate);
                 await _uow.StampRepository.Update(valueToUpdate);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
@@ -220,9 +221,9 @@ namespace TimeTrackerBackend.Web.Controllers
             try
             {
                 var user = await GetCurrentUserAsync();
-                foreach (var item in valuesToUpdate)
+                for (int i = 0; i < valuesToUpdate.Length; i++)
                 {
-                    var workDay = await _uow.WorkDayRepository.GetByIdAsync((Guid)item.WorkDayId);
+                    var workDay = await _uow.WorkDayRepository.GetByIdAsync((Guid)valuesToUpdate[i].WorkDayId);
                     var workMonth = await _uow.WorkMonthRepository.GetByIdAsync((Guid)workDay.WorkMonthId);
                     var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
 
@@ -230,6 +231,8 @@ namespace TimeTrackerBackend.Web.Controllers
                     {
                         return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                     }
+
+                    valuesToUpdate[i] = DateToUTC(valuesToUpdate[i]);
                 }
 
                 await _uow.StampRepository.UpdateStamps(valuesToUpdate.ToList());
@@ -247,6 +250,7 @@ namespace TimeTrackerBackend.Web.Controllers
         {
             try
             {
+                valueToAdd = DateToUTC(valueToAdd);
                 await _uow.StampRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });
@@ -274,5 +278,11 @@ namespace TimeTrackerBackend.Web.Controllers
         }
 
         private async Task<Employee> GetCurrentUserAsync() => await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+        private Stamp DateToUTC(Stamp stamp)
+        {
+            stamp.Time = stamp.Time.ToUniversalTime();
+            return stamp;
+        }
     }
 }

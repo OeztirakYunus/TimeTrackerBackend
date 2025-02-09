@@ -660,3 +660,7 @@ C:/Users/oezti/OneDrive/Desktop/TimeTrackerBackend/TimeTrackerBackend.Web/obj/De
 /Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net7.0/Microsoft.Extensions.Logging.dll
 /Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net7.0/Microsoft.Extensions.Logging.Abstractions.dll
 /Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net7.0/Microsoft.Extensions.Primitives.dll
+/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.Design.dll
+/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net7.0/Npgsql.dll
+/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/yunus/Desktop/Privat/TimeTrackerBackend/TimeTrackerBackend.Web/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.Design.dll

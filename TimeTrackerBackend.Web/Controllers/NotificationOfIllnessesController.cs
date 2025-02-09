@@ -36,9 +36,10 @@ namespace TimeTrackerBackend.Web.Controllers
                 var user = await GetCurrentUserAsync();
                 var all = await _uow.NotificationOfIllnessRepository.GetAllAsyncByEmployeeId(user.Id);
                 var allDto = new List<NotificationOfIllnessDto>();
-                foreach (var item in all)
+                for (int i = 0; i < all.Length; i++)
                 {
-                    allDto.Add(NotificationOfIllnessEntityToDto(item));
+                    all[i] = DateToUTC(all[i]);
+                    allDto.Add(NotificationOfIllnessEntityToDto(all[i]));
                 }
                 return Ok(allDto);
             }
@@ -60,9 +61,10 @@ namespace TimeTrackerBackend.Web.Controllers
                 }
                 var all = await _uow.NotificationOfIllnessRepository.GetAllAsyncForCompany((Guid)user.CompanyId);
                 var allDto = new List<NotificationOfIllnessDto>();
-                foreach (var item in all)
+                for (int i = 0; i < all.Length; i++)
                 {
-                    allDto.Add(NotificationOfIllnessEntityToDto(item));
+                    all[i] = DateToUTC(all[i]);
+                    allDto.Add(NotificationOfIllnessEntityToDto(all[i]));
                 }
                 return Ok(allDto);
             }
@@ -154,6 +156,7 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 var entity = await _uow.NotificationOfIllnessRepository.GetByIdAsync(valueToUpdate.Id);
                 valueToUpdate.CopyProperties(entity);
+                entity = DateToUTC(entity);
                 await _uow.NotificationOfIllnessRepository.Update(entity);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
@@ -172,6 +175,7 @@ namespace TimeTrackerBackend.Web.Controllers
                 var user = await GetCurrentUserAsync();
                 valueToAdd.IsConfirmed = false;
                 valueToAdd.EmployeeId = user.Id;
+                valueToAdd = DateToUTC(valueToAdd);
                 await _uow.NotificationOfIllnessRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });
@@ -244,6 +248,13 @@ namespace TimeTrackerBackend.Web.Controllers
             };
 
             return employeeDto;
+        }
+
+        private NotificationOfIllness DateToUTC(NotificationOfIllness notificationOfIllness)
+        {
+            notificationOfIllness.StartDate = notificationOfIllness.StartDate.ToUniversalTime();
+            notificationOfIllness.EndDate = notificationOfIllness.EndDate.ToUniversalTime();
+            return notificationOfIllness;
         }
     }
 }

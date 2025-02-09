@@ -79,6 +79,17 @@ namespace TimeTrackerBackend.Persistence
                 b.HasIndex(u => u.UserName).IsUnique();
             });
 
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetColumnType("timestamp with time zone");
+                    }
+                }
+            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -91,11 +102,11 @@ namespace TimeTrackerBackend.Persistence
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 var configuration = builder.Build();
                 Debug.Write(configuration.ToString());
-                connectionString = configuration["ConnectionStrings:DefaultConnection"];
+                connectionString = configuration["ConnectionStrings:SQLServerConnection"];
             }
             Console.WriteLine($"!!!!Connecting with {connectionString}");
             optionsBuilder
-                .UseSqlServer(connectionString, builder =>{
+                .UseNpgsql(connectionString, builder =>{
                     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
                 });
             base.OnConfiguring(optionsBuilder);

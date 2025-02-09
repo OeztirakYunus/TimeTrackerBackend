@@ -38,6 +38,8 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 var user = await GetCurrentUserAsync();
                 var workDay = await _uow.WorkDayRepository.GetDayForEmployee(user);
+                //workDay.StartDate = workDay.StartDate.ToLocalTime();
+                //workDay.EndDate = workDay.EndDate.ToLocalTime();
                 return Ok(workDay);
             }
             catch (System.Exception ex)
@@ -82,6 +84,7 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 var entity = await _uow.WorkDayRepository.GetByIdAsync(valueToUpdate.Id);
                 valueToUpdate.CopyProperties(entity);
+                entity = DateToUTC(entity);
                 await _uow.WorkDayRepository.Update(entity);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
@@ -96,7 +99,8 @@ namespace TimeTrackerBackend.Web.Controllers
         public async Task<IActionResult> Post(WorkDay valueToAdd)
         {
             try
-            {              
+            {
+                valueToAdd = DateToUTC(valueToAdd);
                 await _uow.WorkDayRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });
@@ -121,6 +125,13 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 return BadRequest(new { Status = "Error", Message = ex.Message });
             }
+        }
+
+        private WorkDay DateToUTC(WorkDay workDay)
+        {
+            workDay.EndDate = workDay.EndDate.ToUniversalTime();
+            workDay.StartDate = workDay.StartDate.ToUniversalTime();
+            return workDay;
         }
     }
 }

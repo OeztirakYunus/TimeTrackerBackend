@@ -23,7 +23,7 @@ namespace TimeTrackerBackend.Persistence.Repository
         }
         public async Task<WorkDayDto> GetDayForEmployee(Employee employee)
         {
-            var currentDate = DateTime.Now;
+            var currentDate = DateTime.Now.ToUniversalTime();
             var workMonths = await _context.WorkMonths.Where(i => i.EmployeeId.Equals(employee.Id)).Include(i => i.WorkDays).ToArrayAsync();
             var workMonth = workMonths.Where(i => i.Date.Month.Equals(currentDate.Month) && i.Date.Year.Equals(currentDate.Year)).FirstOrDefault();
             var workDay = new WorkDay();

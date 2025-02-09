@@ -138,7 +138,6 @@ namespace TimeTrackerBackend.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
 
             app.UseEndpoints(endpoints =>
             {

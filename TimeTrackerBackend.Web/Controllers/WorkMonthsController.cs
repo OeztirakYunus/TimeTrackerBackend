@@ -49,10 +49,10 @@ namespace TimeTrackerBackend.Web.Controllers
         {
             try
             {
+                date = date.ToUniversalTime();
                 var user = await GetCurrentUserAsync();
                 var workMonth = await _uow.WorkMonthRepository.GetByDate(date, user.Id);
-               
-
+              //  workMonth.Date = workMonth.Date.ToLocalTime();
                 return Ok(workMonth);
             }
             catch (System.Exception ex)
@@ -67,6 +67,7 @@ namespace TimeTrackerBackend.Web.Controllers
         {
             try
             {
+                date = date.ToUniversalTime();
                 var user = await GetCurrentUserAsync();
                 if(user.EmployeeRole != Core.Enums.EmployeeRole.Admin)
                 {
@@ -85,6 +86,7 @@ namespace TimeTrackerBackend.Web.Controllers
                 }
 
                 var workMonth = await _uow.WorkMonthRepository.GetByDate(date, employee.Id);
+               // workMonth.Date = workMonth.Date.ToLocalTime();
                 return Ok(workMonth);
             }
             catch (System.Exception ex)
@@ -115,6 +117,7 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 var entity = await _uow.WorkMonthRepository.GetByIdAsync(valueToUpdate.Id);
                 valueToUpdate.CopyProperties(entity);
+                entity = DateToUTC(entity);
                 await _uow.WorkMonthRepository.Update(entity);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
@@ -129,7 +132,8 @@ namespace TimeTrackerBackend.Web.Controllers
         public async Task<IActionResult> Post(WorkMonth valueToAdd)
         {
             try
-            {              
+            {
+                valueToAdd = DateToUTC(valueToAdd);
                 await _uow.WorkMonthRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });
@@ -195,6 +199,12 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 return BadRequest(new { Status = "Error", Message = ex.Message });
             }
+        }
+
+        private WorkMonth DateToUTC(WorkMonth workMonth)
+        {
+            workMonth.Date = workMonth.Date.ToUniversalTime();
+            return workMonth;
         }
     }
 }

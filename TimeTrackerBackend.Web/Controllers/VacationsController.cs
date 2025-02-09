@@ -37,9 +37,9 @@ namespace TimeTrackerBackend.Web.Controllers
                 var user = await GetCurrentUserAsync();
                 var all = await _uow.VacationRepository.GetAllAsyncByEmployeeId(user.Id);
                 var allDto = new List<VacationDto>();
-                foreach (var item in all)
+                for (int i = 0; i < all.Length; i++)
                 {
-                    allDto.Add(VacationEntityToDto(item));
+                    allDto.Add(VacationEntityToDto(all[i]));
                 }
                 return Ok(allDto);
             }
@@ -61,9 +61,9 @@ namespace TimeTrackerBackend.Web.Controllers
                 }
                 var all = await _uow.VacationRepository.GetAllAsyncForCompany((Guid)user.CompanyId);
                 var allDto = new List<VacationDto>();
-                foreach (var item in all)
+                for (int i = 0; i < all.Length; i++)
                 {
-                    allDto.Add(VacationEntityToDto(item));
+                    allDto.Add(VacationEntityToDto(all[i]));
                 }
                 return Ok(allDto);
             }
@@ -108,6 +108,7 @@ namespace TimeTrackerBackend.Web.Controllers
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
 
+                vac = DateToUTC(vac);
                 await _uow.VacationRepository.ConfirmVacation(vac);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
@@ -139,6 +140,7 @@ namespace TimeTrackerBackend.Web.Controllers
                     return Unauthorized(new { Status = "Unauthorized", Message = "Sie sind nicht bereichtigt zu bearbeiten." });
                 }
 
+                vac = DateToUTC(vac);
                 await _uow.VacationRepository.RejectVacation(vac);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
@@ -156,6 +158,7 @@ namespace TimeTrackerBackend.Web.Controllers
             {
                 var entity = await _uow.VacationRepository.GetByIdAsync(valueToUpdate.Id);
                 valueToUpdate.CopyProperties(entity);
+                entity = DateToUTC(entity);
                 await _uow.VacationRepository.Update(entity);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Updated!" });
@@ -175,7 +178,7 @@ namespace TimeTrackerBackend.Web.Controllers
                 valueToAdd.Status = Core.Enums.TypeOfVacation.InBearbeitung;
                 valueToAdd.EmployeeId = user.Id;
                 valueToAdd.DateOfRequest = DateTime.Now;
-
+                valueToAdd = DateToUTC(valueToAdd);
                 await _uow.VacationRepository.AddAsync(valueToAdd);
                 await _uow.SaveChangesAsync();
                 return Ok(new { Status = "Success", Message = "Added!" });
@@ -247,6 +250,14 @@ namespace TimeTrackerBackend.Web.Controllers
             };
 
             return employeeDto;
+        }
+
+        private Vacation DateToUTC(Vacation vacation)
+        {
+            vacation.DateOfRequest = vacation.DateOfRequest.ToUniversalTime();
+            vacation.StartDate = vacation.StartDate.ToUniversalTime();
+            vacation.EndDate = vacation.EndDate.ToUniversalTime();
+            return vacation;
         }
     }
 }

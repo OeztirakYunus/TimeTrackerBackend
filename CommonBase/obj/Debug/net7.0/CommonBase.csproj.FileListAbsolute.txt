@@ -27,4 +27,5 @@ C:/Users/oezti/OneDrive/Desktop/TimeTrackerBackend/CommonBase/obj/Debug/net7.0/C
 C:/Users/oezti/OneDrive/Desktop/TimeTrackerBackend/CommonBase/obj/Debug/net7.0/refint/CommonBase.dll
 C:/Users/oezti/OneDrive/Desktop/TimeTrackerBackend/CommonBase/obj/Debug/net7.0/CommonBase.pdb
 C:/Users/oezti/OneDrive/Desktop/TimeTrackerBackend/CommonBase/obj/Debug/net7.0/ref/CommonBase.dll
-/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/obj/Debug/net7.0/CommonBase.csproj.CopyComplete
+/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/obj/Debug/net7.0/CommonBase.sourcelink.json
+/Users/yunus/Desktop/Privat/TimeTrackerBackend/CommonBase/obj/Debug/net7.0/CommonBase.csproj.Up2Date

@@ -24,8 +24,9 @@ namespace TimeTrackerBackend.Web
             try
             {
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+               // context.Database.ExecuteSqlRaw("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
                 //await context.Database.EnsureDeletedAsync();
-                await context.Database.EnsureCreatedAsync();
+                //await context.Database.EnsureCreatedAsync();
                 var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
                 if (pendingMigrations.Any())
                 {
