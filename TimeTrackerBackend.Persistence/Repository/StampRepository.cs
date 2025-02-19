@@ -287,6 +287,7 @@ namespace TimeTrackerBackend.Persistence.Repository
 
         public async Task<WorkDay> TakeABreakManuallyAsync(Employee employee, DateTime dateTime)
         {
+            dateTime = dateTime.AddHours(1);
             return await TakeABreakAsync(employee, dateTime);
         }
 

@@ -201,6 +201,49 @@ namespace TimeTrackerBackend.Web.Controllers
             }
         }
 
+        //[HttpGet("createPdf/{employeeId}/{workMonthId}/{month}/{year}")]
+        //public async Task<IActionResult> GetAllPdf(int month, int year)
+        //{
+        //    try
+        //    {
+        //        var user = await GetCurrentUserAsync();
+
+        //        if ((user.EmployeeRole != Core.Enums.EmployeeRole.Admin))
+        //        {
+        //            return Unauthorized(new { Status = "Error", Message = "Sie sind nicht berechtigt." });
+        //        }
+
+        //        user.Company
+
+        //        var guid = Guid.Empty;
+        //        if (!string.IsNullOrEmpty(workMonthId) && workMonthId != "null")
+        //        {
+        //            guid = Guid.Parse(workMonthId);
+        //        }
+        //        var workMonth = await _uow.WorkMonthRepository.GetByIdAsync(guid);
+
+        //        if (workMonth == null)
+        //        {
+        //            workMonth = new WorkMonth()
+        //            {
+        //                Id = Guid.Empty,
+        //                EmployeeId = employeeId,
+        //                Date = new DateTime(year, month, 1)
+        //            };
+        //        }
+
+        //        var employee = await _userManager.FindByIdAsync(workMonth.EmployeeId);
+               
+        //        var workMonthDto = await _uow.WorkMonthRepository.GetAsDto(workMonth);
+        //        var (bytes, path) = PDFCreator.GeneratePdf(workMonthDto);
+        //        return File(bytes, "application/pdf", path);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new { Status = "Error", Message = ex.Message });
+        //    }
+        //}
+
         private WorkMonth DateToUTC(WorkMonth workMonth)
         {
             workMonth.Date = workMonth.Date.ToUniversalTime();

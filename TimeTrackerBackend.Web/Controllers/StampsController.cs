@@ -134,7 +134,7 @@ namespace TimeTrackerBackend.Web.Controllers
                     currentDate.Minute,
                     currentDate.Second
                 ).ToUniversalTime();
-                var workDay = await _uow.StampRepository.TakeABreakAsync(employee, updatedDateTime);
+                var workDay = await _uow.StampRepository.TakeABreakManuallyAsync(employee, updatedDateTime);
                 await _uow.SaveChangesAsync();
                 return Ok(workDay);
             }

@@ -51,12 +51,12 @@ namespace TimeTrackerBackend.Web.Controllers
                 var authenticatedUser = await _userManager.FindByEmailAsync(email);
                 if (authenticatedUser == null)
                 {
-                    return Unauthorized(new { Status = "Error", Message = $"User with Email {email} does not exist!" });
+                    return Unauthorized(new { Status = "Error", Message = $"Email oder Passwort falsch!" });
                 }
 
                 if (!await _userManager.CheckPasswordAsync(authenticatedUser, password))
                 {
-                    return Unauthorized(new { Status = "Error", Message = $"User with Email {email} has sent a wrong password!" });
+                    return Unauthorized(new { Status = "Error", Message = $"Email oder Passwort falsch!" });
                 }
 
                 var (token, roles) = await GenerateJwtToken(authenticatedUser);
